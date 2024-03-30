@@ -1,49 +1,5 @@
-function solveWordSearch(board, dictionary) {
-  const rows = board.length;
-  const cols = board[0].length;
-  const foundWords = new Set();
-
-  function dfs(row, col, currentWord, visited) {
-    if (dictionary.has(currentWord) && currentWord.length > 1) {
-      foundWords.add(currentWord);
-    }
-
-    // Check all 8 directions (up, down, left, right, diagonals)
-    for (const [dr, dc] of [
-      [-1, 0],
-      [1, 0],
-      [0, -1],
-      [0, 1],
-      [-1, -1],
-      [-1, 1],
-      [1, -1],
-      [1, 1],
-    ]) {
-      const newRow = row + dr;
-      const newCol = col + dc;
-      if (
-        newRow >= 0 &&
-        newRow < rows &&
-        newCol >= 0 &&
-        newCol < cols &&
-        !visited.has([newRow, newCol])
-      ) {
-        visited.add([newRow, newCol]);
-        dfs(newRow, newCol, currentWord + board[newRow][newCol], visited);
-        visited.delete([newRow, newCol]);
-      }
-    }
-  }
-
-  // Iterate through each cell in the grid and start DFS
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      dfs(row, col, "", new Set());
-    }
-  }
-
-  return Array.from(foundWords);
-}
+import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
+import { Worker } from 'worker_threads';
 
 // Example usage
 const board = [
@@ -56,18 +12,46 @@ const board = [
   ['Y', 'E', 'C', 'A', 'M', 'I'],
   ['M', 'N', 'O', 'I', 'T', 'C'],
 ];
-const dictionary = new Set([
-  "STORY",
-  "RANGE",
-  "YEAR",
-  "MONTH",
-  "STONE",
-  "MAGIC",
-  "FIND",
-  "FORT",
-  "MIGHT",
-  "PLACE",
-]);
 
-const foundWords = solveWordSearch(board, dictionary);
-console.log(foundWords);
+function solveWordSearch(board, dictionary) {
+  return new Promise((resolve, reject) => {
+    const rows = board.length;
+    const cols = board[0].length;
+    const foundWords = [];
+
+    const worker = new Worker('./dfsWorker.js', {
+      workerData: { board, dictionary },
+    });
+
+    let maxSolutions = 1; // Adjust as needed (more solutions might take longer)
+    let solutionsReceived = 0;
+
+    worker.on('message', (workerFoundWords) => {
+      foundWords.push(...workerFoundWords);
+      solutionsReceived += workerFoundWords.length;
+      if (solutionsReceived >= maxSolutions) {
+        worker.terminate(); // Stop the worker after finding enough solutions
+      }
+    });
+
+    worker.on('error', (err) => {
+      console.error(`Worker error: ${err}`);
+      reject(err);
+    });
+
+    worker.on('exit', (code) => {
+      if (code !== 0) {
+        console.error(`Worker stopped with exit code ${code}`);
+        reject(new Error(`Worker stopped with exit code ${code}`));
+      } else {
+        resolve(foundWords);
+      }
+    });
+  });
+}
+
+solveWordSearch(board, dictionary).then(foundWords => {
+  console.log(foundWords);
+}).catch(err => {
+  console.error(err);
+});
