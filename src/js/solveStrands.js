@@ -89,6 +89,5 @@ function solveWordSearch(board, dictionary) {
   return foundWords;
 }
 
-
 const foundWords = solveWordSearch(board, updatedDictionary);
 console.log(foundWords);
