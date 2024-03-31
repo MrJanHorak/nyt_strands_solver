@@ -9,11 +9,24 @@ const grid = [
   ['M', 'N', 'O', 'I', 'T', 'C'],
 ];
 
-const dictionary = ["STREAMING", "FORTY", "SHORTHAND", "HARMONY"]; // Add more words here
+import dictionary from '../data/dictionary_array.js';
 
-const usedLetters = new Set(); // Track used letters
+const usedLetters = new Set(); //Track used letters
 
-function findWords(row, col, currentWord) {
+const  removeShortWords = (dictionary) =>{
+  dictionary.forEach((word, index) => {
+    if (word.length <= 3) {
+      if (index > -1) {
+        dictionary.splice(index, 1);
+      }
+    }
+  });
+  return dictionary;
+}
+
+const updatedDictionary = removeShortWords(dictionary);
+
+const findWords = (row, col, currentWord) => {
   if (row < 0 || row >= grid.length || col < 0 || col >= grid[row].length) {
     return; // Out of bounds
   }
@@ -27,8 +40,8 @@ function findWords(row, col, currentWord) {
   usedLetters.add(letter);
 
   // Check if a complete word is found in the dictionary
-  if (dictionary.includes(currentWord) && currentWord.length > 4) {
-    console.log("Found Word:", currentWord);
+  if (updatedDictionary.includes(currentWord) && currentWord.length > 4) {
+    console.log('Found Word:', currentWord);
   }
 
   // Explore all directions (recursively)
@@ -47,6 +60,8 @@ function findWords(row, col, currentWord) {
 // Start searching from each cell
 for (let i = 0; i < grid.length; i++) {
   for (let j = 0; j < grid[i].length; j++) {
-    findWords(i, j, "");
+    findWords(i, j, '');
   }
 }
+
+// Output:
