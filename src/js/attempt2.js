@@ -11,57 +11,55 @@ const grid = [
 
 import dictionary from '../data/dictionary_array.js';
 
-const usedLetters = new Set(); //Track used letters
+const usedLetters = new Set();
+const foundWords = []
 
-const  removeShortWords = (dictionary) =>{
-  dictionary.forEach((word, index) => {
-    if (word.length <= 3) {
-      if (index > -1) {
-        dictionary.splice(index, 1);
-      }
-    }
-  });
-  return dictionary;
-}
+// Function to explore and build words
+function exploreWords(row, col, currentWord, minLength = 4) {
 
-const updatedDictionary = removeShortWords(dictionary);
-
-const findWords = (row, col, currentWord) => {
   if (row < 0 || row >= grid.length || col < 0 || col >= grid[row].length) {
     return; // Out of bounds
   }
 
-  const letter = grid[row][col];
-  if (usedLetters.has(letter)) {
+  const letter = grid[row][col].toLowerCase();
+  const coords = `${row}-${col}`;
+  if (usedLetters.has(coords)) {
     return; // Already used letter
   }
 
-  currentWord += letter;
-  usedLetters.add(letter);
-
-  // Check if a complete word is found in the dictionary
-  if (updatedDictionary.includes(currentWord) && currentWord.length > 4) {
+  currentWord += letter
+  usedLetters.add(letter.row + '-' + letter.col);
+  // console.log('Current Word:', currentWord);
+  // Check if a complete word is found in the dictionary (consider minLength)
+  if (currentWord.length >= minLength && dictionary.includes(currentWord)) {
     console.log('Found Word:', currentWord);
+    foundWords.push(currentWord);
+     // Reset current word
   }
 
-  // Explore all directions (recursively)
-  findWords(row + 1, col, currentWord); // Down
-  findWords(row - 1, col, currentWord); // Up
-  findWords(row, col + 1, currentWord); // Right
-  findWords(row, col - 1, currentWord); // Left
-  findWords(row + 1, col + 1, currentWord); // Diagonally down-right
-  findWords(row - 1, col - 1, currentWord); // Diagonally up-left
-  findWords(row + 1, col - 1, currentWord); // Diagonally down-left
-  findWords(row - 1, col + 1, currentWord); // Diagonally up-right
+  if (currentWord.length >= 10) {
+    return; // Max length reached
+  }
 
-  usedLetters.delete(letter); // Backtrack - remove used letter
+  // Explore all directions recursively, prioritizing longer words
+  exploreWords(row + 1, col, currentWord, minLength); // Down
+  exploreWords(row - 1, col, currentWord, minLength); // Up
+  exploreWords(row, col + 1, currentWord, minLength); // Right
+  exploreWords(row, col - 1, currentWord, minLength); // Left
+  exploreWords(row + 1, col + 1, currentWord, minLength); // Diagonally down-right
+  exploreWords(row - 1, col - 1, currentWord, minLength); // Diagonally up-left
+  exploreWords(row + 1, col - 1, currentWord, minLength); // Diagonally down-left
+  exploreWords(row - 1, col + 1, currentWord, minLength); // Diagonally up-right
+
+  // Backtrack
+  usedLetters.delete(letter.row + '-' + letter.col);
 }
 
-// Start searching from each cell
+// Start searching from each cell, starting with shorter words
 for (let i = 0; i < grid.length; i++) {
   for (let j = 0; j < grid[i].length; j++) {
-    findWords(i, j, '');
+    exploreWords(i, j, '', 4); // Start with minimum length 2
   }
 }
 
-// Output:
+console.log('All found words:', foundWords);

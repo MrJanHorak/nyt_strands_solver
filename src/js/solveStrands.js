@@ -2,15 +2,15 @@ import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
 
 // Example usage
 const board = [
-  ['M', 'U', 'H', 'A', 'Y', 'S'],
-  ['O', 'B', 'F', 'G', 'N', 'A'],
-  ['R', 'I', 'O', 'R', 'P', 'T'],
-  ['S', 'E', 'R', 'A', 'Y', 'H'],
-  ['E', 'R', 'Y', 'N', 'E', 'G'],
-  ['S', 'T', 'N', 'O', 'R', 'F'],
-  ['Y', 'E', 'C', 'A', 'M', 'I'],
-  ['M', 'N', 'O', 'I', 'T', 'C'],
-];
+  [ 'E', 'L', 'T', 'I', 'T', 'G' ],
+  [ 'K', 'W', 'R', 'E', 'T', 'U' ],
+  [ 'H', 'C', 'A', 'F', 'F', 'S' ],
+  [ 'R', 'I', 'U', 'H', 'U', 'L' ],
+  [ 'O', 'L', 'C', 'O', 'A', 'H' ],
+  [ 'A', 'R', 'A', 'I', 'U', 'G' ],
+  [ 'O', 'T', 'R', 'L', 'T', 'C' ],
+  [ 'O', 'H', 'E', 'R', 'O', 'H' ]
+]
 
 function removeShortWords(dictionary) {
   for (const word in dictionary) {
@@ -29,13 +29,20 @@ const updatedDictionary = removeShortWords(dictionary);
 function dfs(row, col, currentWord, visited, board, dictionary, rows, cols, currentSolution = [], usedCoords = new Set()) {
   const foundWords = [];
 
-  if (currentWord.length > 1 && dictionary[currentWord]) {
+  if (currentWord.length > 10) {
+    return [];
+  }
+
+  if (currentWord.length >= 4 && dictionary[currentWord]) {
+    console.log('Found Word:', currentWord);
     currentSolution.push(currentWord);
     usedCoords.add(`${row},${col}`);
-    if (usedCoords.size === rows * cols) {
-      // If all coordinates have been used, add the solution
-      foundWords.push([...currentSolution]);
-    }
+    return [currentWord];
+  }
+
+  if (usedCoords.size === rows * cols) {
+    console.log('Found Solution:', currentSolution);
+    return currentSolution;
   }
 
   // Check all 8 directions (up, down, left, right, diagonals)
@@ -61,7 +68,7 @@ function dfs(row, col, currentWord, visited, board, dictionary, rows, cols, curr
       !usedCoords.has(coord)
     ) {
       visited.add(coord);
-      foundWords.push(...dfs(newRow, newCol, currentWord + board[newRow][newCol], visited, board, dictionary, rows, cols, currentSolution, usedCoords));
+      foundWords.push(...dfs(newRow, newCol, currentWord + board[newRow][newCol].toLowerCase(), visited, board, dictionary, rows, cols, currentSolution, usedCoords));
       visited.delete(coord);
     }
   }
@@ -71,6 +78,8 @@ function dfs(row, col, currentWord, visited, board, dictionary, rows, cols, curr
     currentSolution.pop();
     usedCoords.delete(`${row},${col}`);
   }
+
+  
 
   return foundWords;
 }
