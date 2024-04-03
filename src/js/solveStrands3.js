@@ -1,6 +1,5 @@
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
-// import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
-import Trie from './trieDictionary.js';
+import Trie from './trieDictionary.js'; 
+import dictionary from '../data/words_dictionary.json' assert { type: 'json' };// Assuming Trie implementation is in Trie.js
 
 // Example usage
 const board = [
@@ -52,13 +51,7 @@ function dfs(
 
   if (currentWord.length >= 4 && trie.search(currentWord)) {
     currentSolution.push(currentWord);
-    console.log(
-      'Found Word:',
-      currentWord,
-      'Solution:',
-      currentSolution.length
-    );
-    visited.add(`${row},${col}`); // Mark current cell as visited
+    visited.add(`<span class="math-inline">\{row\},</span>{col}`); // Mark current cell as visited
 
     // Check if all cells are visited and solution length is within range
     if (
@@ -83,7 +76,7 @@ function dfs(
   ]) {
     const newRow = row + dr;
     const newCol = col + dc;
-    const coord = `${newRow},${newCol}`;
+    const coord = `<span class="math-inline">\{newRow\},</span>{newCol}`;
 
     if (
       newRow >= 0 &&
@@ -97,7 +90,7 @@ function dfs(
         newRow,
         newCol,
         currentWord + board[newRow][newCol].toLowerCase(),
-        visited,
+        visited.clone(),
         board,
         trie,
         rows,
@@ -110,39 +103,82 @@ function dfs(
   }
 
   // Backtrack: remove last word and unmark visited cell
-  if (currentSolution.length > 0 && visited.has(`${row},${col}`)) {
+  if (currentSolution.length > 0 && visited.has(`<span class="math-inline">\{row\},</span>{col}`)) {
     currentSolution.pop();
-    visited.delete(`${row},${col}`);
+    visited.delete(`<span class="math-inline">\{row\},</span>{col}`);
   }
 
   return foundWords;
 }
 
-function solveWordSearch(board, trie) {
-  const rows = board.length;
-  const cols = board[0].length;
-  const foundWords = []; // Array to store all solutions
+function findAllWords(
+  row,
+  col,
+  currentWord,
+  visited,
+  board,
+  trie,
+  rows,
+  cols,
+  foundWords = []
+) {
+  if (currentWord.length > 15 || !trie.startsWith(currentWord)) {
+    return foundWords;
+  }
 
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const solution = dfs(
-        row,
-        col,
-        board[row][col].toLowerCase(),
-        new Set(),
+  if (currentWord.length >= 4 && trie.search(currentWord)) {
+    foundWords.push({ word: currentWord, start: [row, col] });
+  }
+
+  for (const [dr, dc] of [
+    [-1, 0], // Up
+    [1, 0], // Down
+    [0, -1], // Left
+    [0, 1], // Right
+    [-1, -1], // Diagonal up-left
+    [-1, 1], // Diagonal up-right
+    [1, -1], // Diagonal down-left
+    [1, 1], // Diagonal down-right
+  ]) {
+    const newRow = row + dr;
+    const newCol = col + dc;
+
+    if (
+      newRow >= 0 &&
+      newRow < rows &&
+      newCol >= 0 &&
+      newCol < cols &&
+      !visited.has(`${newRow},${newCol}`)
+    ) {
+      visited.add(`${newRow},${newCol}`);
+      const branchResults = findAllWords(
+        newRow,
+        newCol,
+        currentWord + board[newRow][newCol].toLowerCase(),
+        visited,
         board,
         trie,
         rows,
-        cols
+        cols,
+        foundWords
       );
-      if (solution) {
-        foundWords.push(solution); // Add found solution to the array
-      }
+      visited.delete(`${newRow},${newCol}`);
+      foundWords.push(...branchResults);
     }
   }
 
-  return foundWords; // Return the array of all solutions
+  return foundWords;
 }
 
-const foundWords = solveWordSearch(board, trie);
-console.log(foundWords);
+// Find all words on the board
+const rows = board.length;
+const cols = board[0].length;
+const foundWords = [];
+
+for (let row = 0; row < rows; row++) {
+  for (let col = 0; col < cols; col++) {
+    findAllWords(row, col, '', new Set(), board, trie, rows, cols, foundWords);
+  }
+}
+
+console.log('Found Words:', foundWords);
