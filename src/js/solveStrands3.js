@@ -1,17 +1,21 @@
-import Trie from './trieDictionary.js'; 
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };// Assuming Trie implementation is in Trie.js
+import Trie from './trieDictionary.js';
+import dictionary from '../data/words_dictionary.json' assert { type: 'json' }; // Assuming Trie implementation is in Trie.js
 
 // Example usage
 const board = [
-  ['I', 'D', 'Y', 'R', 'E', 'K'],
-  ['R', 'A', 'N', 'E', 'C', 'A'],
-  ['Y', 'E', 'R', 'S', 'O', 'B'],
-  ['Z', 'O', 'Y', 'A', 'E', 'R'],
-  ['E', 'R', 'S', 'F', 'D', 'G'],
-  ['R', 'F', 'T', 'O', 'U', 'O'],
-  ['M', 'O', 'T', 'O', 'C', 'R'],
-  ['E', 'A', 'S', 'D', 'E', 'P'],
+  ['D', 'B', 'C', 'O', 'R', 'C'],
+  ['E', 'R', 'A', 'T', 'U', 'A'],
+  ['Y', 'K', 'O', 'S', 'L', 'S'],
+  ['A', 'C', 'A', 'C', 'B', 'E'],
+  ['R', 'I', 'W', 'D', 'A', 'A'],
+  ['P', 'R', 'G', 'R', 'W', 'R'],
+  ['S', 'I', 'A', 'E', 'A', 'E'],
+  ['H', 'A', 'S', 'E', 'Y', 'T'],
 ];
+
+const rows = board.length;
+const cols = board[0].length;
+const foundWords = new Map();
 
 function removeShortWords(dictionary) {
   for (const word in dictionary) {
@@ -32,85 +36,6 @@ for (let word of Object.keys(updatedDictionary)) {
   trie.insert(word);
 }
 
-function dfs(
-  row,
-  col,
-  currentWord,
-  visited,
-  board,
-  trie,
-  rows,
-  cols,
-  currentSolution = []
-) {
-  const foundWords = [];
-
-  if (currentWord.length > 15 || !trie.startsWith(currentWord)) {
-    return [];
-  }
-
-  if (currentWord.length >= 4 && trie.search(currentWord)) {
-    currentSolution.push(currentWord);
-    visited.add(`<span class="math-inline">\{row\},</span>{col}`); // Mark current cell as visited
-
-    // Check if all cells are visited and solution length is within range
-    if (
-      visited.size === rows * cols &&
-      currentSolution.length >= 6 &&
-      currentSolution.length <= 8
-    ) {
-      return [...currentSolution]; // Return a copy of the solution
-    }
-  }
-
-  // Check all 8 directions (up, down, left, right, diagonals)
-  for (const [dr, dc] of [
-    [-1, 0],
-    [1, 0],
-    [0, -1],
-    [0, 1],
-    [-1, -1],
-    [-1, 1],
-    [1, -1],
-    [1, 1],
-  ]) {
-    const newRow = row + dr;
-    const newCol = col + dc;
-    const coord = `<span class="math-inline">\{newRow\},</span>{newCol}`;
-
-    if (
-      newRow >= 0 &&
-      newRow < rows &&
-      newCol >= 0 &&
-      newCol < cols &&
-      !visited.has(coord)
-    ) {
-      visited.add(coord);
-      const branchResults = dfs(
-        newRow,
-        newCol,
-        currentWord + board[newRow][newCol].toLowerCase(),
-        visited.clone(),
-        board,
-        trie,
-        rows,
-        cols,
-        currentSolution
-      );
-      visited.delete(coord);
-      foundWords.push(...branchResults);
-    }
-  }
-
-  // Backtrack: remove last word and unmark visited cell
-  if (currentSolution.length > 0 && visited.has(`<span class="math-inline">\{row\},</span>{col}`)) {
-    currentSolution.pop();
-    visited.delete(`<span class="math-inline">\{row\},</span>{col}`);
-  }
-
-  return foundWords;
-}
-
 function findAllWords(
   row,
   col,
@@ -120,16 +45,40 @@ function findAllWords(
   trie,
   rows,
   cols,
-  foundWords = []
+  foundWords = new Map()
 ) {
-  if (currentWord.length > 15 || !trie.startsWith(currentWord)) {
+  // 1. Check for base cases
+  if (
+    currentWord.length > 15 || // Maximum word length check
+    !trie.startsWith(currentWord) || // Prefix check
+    row < 0 ||
+    row >= rows ||
+    col < 0 ||
+    col >= cols ||
+    visited.has(`<span class="math-inline">\{row\},</span>{col}`) // Check if cell is already visited
+  ) {
     return foundWords;
   }
 
+  // 2. Add current cell to visited set
+  visited.add(`<span class="math-inline">\{row\},</span>{col},${currentWord}`); // Include current word for coordinate tracking
+
+  // 3. Check for complete word and add coordinates (if found)
   if (currentWord.length >= 4 && trie.search(currentWord)) {
-    foundWords.push({ word: currentWord, start: [row, col] });
+    const wordCoordinates = [...visited];// Declare outside the loop to accumulate coordinates
+
+    // 3.1 Loop through visited entries that match the current word
+    for (const [r, c] of visited) {
+      if (visited.has(`${r},${c},${currentWord}`)) {
+        wordCoordinates.push([r, c]); // Add coordinates only for the complete word
+      }
+    }
+
+    // 3.2 Add word and coordinates to foundWords Map
+    foundWords.set(currentWord, wordCoordinates);
   }
 
+  // 4. Explore neighbors recursively
   for (const [dr, dc] of [
     [-1, 0], // Up
     [1, 0], // Down
@@ -148,36 +97,47 @@ function findAllWords(
       newRow < rows &&
       newCol >= 0 &&
       newCol < cols &&
-      !visited.has(`${newRow},${newCol}`)
+      !visited.has(`${r},${c},${currentWord}`)
     ) {
-      visited.add(`${newRow},${newCol}`);
+      const newWord = currentWord + board[newRow][newCol].toLowerCase();
+      const newVisited = new Set([...visited]); // Create a copy of visited set
+
       const branchResults = findAllWords(
         newRow,
         newCol,
-        currentWord + board[newRow][newCol].toLowerCase(),
-        visited,
+        newWord,
+        newVisited,
         board,
         trie,
         rows,
         cols,
         foundWords
       );
-      visited.delete(`${newRow},${newCol}`);
-      foundWords.push(...branchResults);
+
+      visited.delete(`${r},${c},${currentWord}`); // Remove current cell from visited
     }
   }
+  
 
   return foundWords;
 }
 
 // Find all words on the board
-const rows = board.length;
-const cols = board[0].length;
-const foundWords = [];
 
 for (let row = 0; row < rows; row++) {
   for (let col = 0; col < cols; col++) {
-    findAllWords(row, col, '', new Set(), board, trie, rows, cols, foundWords);
+    const visited = new Set();
+    findAllWords(
+      row,
+      col,
+      board[row][col].toLowerCase(),
+      visited,
+      board,
+      trie,
+      rows,
+      cols,
+      foundWords
+    );
   }
 }
 
