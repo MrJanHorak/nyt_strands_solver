@@ -34,7 +34,6 @@ function dfs(row, col, currentWord, visited, board, dictionary, rows, cols, curr
   }
 
   if (currentWord.length >= 4 && dictionary[currentWord]) {
-    console.log('Found Word:', currentWord);
     currentSolution.push(currentWord);
     usedCoords.add(`${row},${col}`);
     return [currentWord];

@@ -8,6 +8,7 @@ class TrieNode {
 class Trie {
   constructor() {
     this.root = new TrieNode();
+    this.wordCount = 0;
   }
 
   insert(word) {
@@ -18,7 +19,10 @@ class Trie {
       }
       node = node.children[char];
     }
-    node.isEndOfWord = true;
+    if (!node.isEndOfWord) {
+      node.isEndOfWord = true;
+      this.wordCount++; // Increment wordCount when a new word is inserted
+    }
   }
 
   search(word) {
@@ -41,6 +45,10 @@ class Trie {
       node = node.children[char];
     }
     return true;
+  }
+
+  logWordCount() {
+    console.log(this.wordCount);
   }
 }
 
