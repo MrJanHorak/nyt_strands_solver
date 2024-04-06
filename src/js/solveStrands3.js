@@ -4,15 +4,15 @@ import fs from 'fs';
 
 // Example usage
 const board = [
-  ['B', 'R', 'E', 'L', 'C', 'O'],
-  ['D', 'A', 'U', 'A', 'L', 'N'],
-  ['H', 'N', 'B', 'H', 'T', 'E'],
-  ['E', 'G', 'C', 'D', 'M', 'T'],
-  ['G', 'U', 'O', 'O', 'U', 'C'],
-  ['A', 'B', 'N', 'C', 'I', 'H'],
-  ['B', 'E', 'M', 'A', 'E', 'P'],
-  ['A', 'C', 'Y', 'L', 'C', 'S'],
-];
+  [ 'N', 'T', 'O', 'M', 'A', 'L' ],
+  [ 'O', 'C', 'I', 'T', 'O', 'A' ],
+  [ 'M', 'A', 'N', 'N', 'A', 'N' ],
+  [ 'R', 'E', 'D', 'C', 'R', 'I' ],
+  [ 'Y', 'A', 'L', 'E', 'R', 'D' ],
+  [ 'R', 'R', 'T', 'S', 'B', 'T' ],
+  [ 'R', 'A', 'W', 'R', 'U', 'Y' ],
+  [ 'E', 'B', 'G', 'U', 'N', 'D' ]
+]
 
 const rows = board.length;
 const cols = board[0].length;
@@ -146,7 +146,7 @@ for (let row = 0; row < rows; row++) {
 }
 
 // console.log('Found Words:', foundWords);
-// console.log('Found Words:', foundWords.size);
+console.log('Found Words:', foundWords.size);
 // console.log('Found Words:', foundWords.entries());
 // Function to check if two words share any coordinates
 function shareCoordinates(coords1, coords2) {
@@ -205,46 +205,10 @@ function isNonOverlapping(subset) {
   return true;
 }
 
-function findOptimalNonOverlappingWords(words) {
-  const wordsArray = Array.from(words.entries());
-  let bestSolution = [];
-
-  function backtrack(startIndex = 0, currentSolution = []) {
-    // If the current solution is better than the best solution, update the best solution
-    if (currentSolution.length > bestSolution.length) {
-      bestSolution = currentSolution;
-    }
-
-    for (let i = startIndex; i < wordsArray.length; i++) {
-      const [word, coords] = wordsArray[i];
-
-      // Check if the current word overlaps with any word in the current solution
-      let overlaps = currentSolution.some(([_, existingCoords]) =>
-        shareCoordinates(coords, existingCoords)
-      );
-
-      // If the current word does not overlap with any word in the current solution, add it to the current solution and continue the search
-      if (!overlaps) {
-        backtrack(i + 1, [...currentSolution, [word, coords]]);
-      }
-    }
-  }
-
-  backtrack();
-
-  const optimalNonOverlappingWords = new Map(bestSolution);
-  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.size);
-  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.entries());
-  return optimalNonOverlappingWords;
-}
-
 const totalLetters = rows * cols;
 
 const nonOverlappingWords = findNonOverlappingWords(foundWords);
 console.log('Non-overlapping Words:', nonOverlappingWords);
-
-const optimalNonOverlappingWords = findOptimalNonOverlappingWords(foundWords);
-console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords);
 
 // Function to find complete and non-overlapping word sets
 function findCompleteWordSets(words) {
@@ -420,3 +384,77 @@ console.log('All Possible Non-Overlapping Word Sets:', allSets);
 // for (const word of foundWords.keys()) {
 //   console.log(word);
 // }
+
+// function findOptimalNonOverlappingWords(words) {
+//   const wordsArray = Array.from(words.entries());
+//   let bestSolution = [];
+
+//   function backtrack(startIndex = 0, currentSolution = []) {
+//     // If the current solution is better than the best solution, update the best solution
+//     if (currentSolution.length > bestSolution.length) {
+//       bestSolution = currentSolution;
+//     }
+
+//     for (let i = startIndex; i < wordsArray.length; i++) {
+//       const [word, coords] = wordsArray[i];
+
+//       // Check if the current word overlaps with any word in the current solution
+//       let overlaps = currentSolution.some(([_, existingCoords]) =>
+//         shareCoordinates(coords, existingCoords)
+//       );
+
+//       // If the current word does not overlap with any word in the current solution, add it to the current solution and continue the search
+//       if (!overlaps) {
+//         backtrack(i + 1, [...currentSolution, [word, coords]]);
+//       }
+//     }
+//   }
+
+//   backtrack();
+
+//   const optimalNonOverlappingWords = new Map(bestSolution);
+//   console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.size);
+//   console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.entries());
+//   return optimalNonOverlappingWords;
+// }
+
+function findOptimalNonOverlappingWords(words) {
+  const wordsArray = Array.from(words.entries()).sort((a, b) => b[0].length - a[0].length);
+  let bestSolution = [];
+
+  function backtrack(startIndex = 0, currentSolution = []) {
+    // If the current solution is better than the best solution, update the best solution
+    if (currentSolution.length > bestSolution.length) {
+      bestSolution = currentSolution;
+    }
+
+    // If adding all remaining words won't make a better solution, stop searching
+    if (currentSolution.length + wordsArray.length - startIndex <= bestSolution.length) {
+      return;
+    }
+
+    for (let i = startIndex; i < wordsArray.length; i++) {
+      const [word, coords] = wordsArray[i];
+
+      // Check if the current word overlaps with any word in the current solution
+      let overlaps = currentSolution.some(([_, existingCoords]) =>
+        shareCoordinates(coords, existingCoords)
+      );
+
+      // If the current word does not overlap with any word in the current solution, add it to the current solution and continue the search
+      if (!overlaps) {
+        backtrack(i + 1, [...currentSolution, [word, coords]]);
+      }
+    }
+  }
+
+  backtrack();
+
+  const optimalNonOverlappingWords = new Map(bestSolution);
+  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.size);
+  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.entries());
+  return optimalNonOverlappingWords;
+}
+
+const optimalNonOverlappingWords = findOptimalNonOverlappingWords(foundWords);
+console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords);
