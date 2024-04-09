@@ -1,19 +1,17 @@
 import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
-import fs from 'fs';
-
+import CoordinateTrie from './trieCoordinates.js';
 // Example usage
-const board = [
-  [ 'A', 'P', 'L', 'E', 'T', 'N' ],
-  [ 'P', 'B', 'B', 'U', 'H', 'O' ],
-  [ 'E', 'T', 'B', 'E', 'G', 'O' ],
-  [ 'R', 'A', 'H', 'R', 'I', 'L' ],
-  [ 'F', 'E', 'W', 'W', 'E', 'L' ],
-  [ 'R', 'A', 'H', 'T', 'A', 'E' ],
-  [ 'T', 'I', 'G', 'A', 'B', 'Y' ],
-  [ 'S', 'L', 'H', 'S', 'L', 'E' ]
+const board =[
+  [ 'E', 'S', 'E', 'T', 'O', 'N' ],
+  [ 'C', 'K', 'E', 'I', 'M', 'T' ],
+  [ 'C', 'O', 'P', 'W', 'M', 'H' ],
+  [ 'E', 'N', 'I', 'E', 'D', 'E' ],
+  [ 'N', 'D', 'E', 'R', 'U', 'C' ],
+  [ 'T', 'U', 'R', 'C', 'O', 'A' ],
+  [ 'E', 'Y', 'M', 'E', 'H', 'D' ],
+  [ 'T', 'U', 'N', 'I', 'S', 'E' ]
 ]
-
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -459,40 +457,6 @@ console.log('All Possible Non-Overlapping Word Sets:', allSets);
 // const optimalNonOverlappingWords = findOptimalNonOverlappingWords(foundWords);
 // console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords);
 
-class CoordinateTrieNode {
-  constructor() {
-    this.children = new Map();
-    this.wordEnd = false;
-  }
-}
-
-class CoordinateTrie {
-  constructor() {
-    this.root = new CoordinateTrieNode();
-  }
-
-  insert(word, coords) {
-    let node = this.root;
-    for (const coord of coords) {
-      if (!node.children.has(coord)) {
-        node.children.set(coord, new CoordinateTrieNode());
-      }
-      node = node.children.get(coord);
-    }
-    node.wordEnd = true;
-  }
-
-  hasOverlap(coords) {
-    let node = this.root;
-    for (const coord of coords) {
-      if (!node.children.has(coord)) {
-        return false;
-      }
-      node = node.children.get(coord);
-    }
-    return true;
-  }
-}
 
 function findOptimalNonOverlappingWords(words) {
   const wordsArray = Array.from(words.entries()).sort((a, b) => b[0].length - a[0].length);

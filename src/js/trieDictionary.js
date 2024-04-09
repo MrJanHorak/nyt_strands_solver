@@ -4,7 +4,6 @@ class TrieNode {
     this.isEndOfWord = false;
   }
 }
-
 class Trie {
   constructor() {
     this.root = new TrieNode();
@@ -21,7 +20,7 @@ class Trie {
     }
     if (!node.isEndOfWord) {
       node.isEndOfWord = true;
-      this.wordCount++; // Increment wordCount when a new word is inserted
+      this.wordCount++;
     }
   }
 
