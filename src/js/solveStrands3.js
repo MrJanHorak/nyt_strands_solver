@@ -2,16 +2,16 @@ import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
-const board =[
-  [ 'E', 'S', 'E', 'T', 'O', 'N' ],
-  [ 'C', 'K', 'E', 'I', 'M', 'T' ],
-  [ 'C', 'O', 'P', 'W', 'M', 'H' ],
-  [ 'E', 'N', 'I', 'E', 'D', 'E' ],
-  [ 'N', 'D', 'E', 'R', 'U', 'C' ],
-  [ 'T', 'U', 'R', 'C', 'O', 'A' ],
-  [ 'E', 'Y', 'M', 'E', 'H', 'D' ],
-  [ 'T', 'U', 'N', 'I', 'S', 'E' ]
-]
+const board = [
+  ['D', 'Y', 'O', 'B', 'W', 'O'],
+  ['T', 'O', 'L', 'E', 'R', 'C'],
+  ['N', 'E', 'P', 'Y', 'T', 'S'],
+  ['E', 'A', 'N', 'H', 'A', 'I'],
+  ['V', 'M', 'I', 'L', 'R', 'T'],
+  ['A', 'R', 'P', 'T', 'E', 'A'],
+  ['A', 'P', 'I', 'O', 'H', 'N'],
+  ['T', 'R', 'P', 'A', 'N', 'T'],
+];
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -160,7 +160,9 @@ function shareCoordinates(coords1, coords2) {
 
 // Function to find all words that do not share any coordinates
 function findNonOverlappingWords(words) {
-  const wordsArray = Array.from(words.entries()).sort((a, b) => b[0].length - a[0].length);
+  const wordsArray = Array.from(words.entries()).sort(
+    (a, b) => b[0].length - a[0].length
+  );
   const nonOverlappingWords = new Map();
 
   for (const [word, coords] of wordsArray) {
@@ -457,17 +459,22 @@ console.log('All Possible Non-Overlapping Word Sets:', allSets);
 // const optimalNonOverlappingWords = findOptimalNonOverlappingWords(foundWords);
 // console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords);
 
-
 function findOptimalNonOverlappingWords(words) {
-  const wordsArray = Array.from(words.entries()).sort((a, b) => b[0].length - a[0].length);
+  const wordsArray = Array.from(words.entries()).sort(
+    (a, b) => b[0].length - a[0].length
+  );
   let bestSolution = [];
   const trie = new CoordinateTrie();
 
-  function backtrack(startIndex = 0, currentSolution = [], trie = new CoordinateTrie()) {
+  function backtrack(
+    startIndex = 0,
+    currentSolution = [],
+    trie = new CoordinateTrie()
+  ) {
     if (currentSolution.length > bestSolution.length) {
       bestSolution = currentSolution;
     }
-  
+
     // if (currentSolution.length + wordsArray.length - startIndex <= bestSolution.length) {
     //   return;
     // }
@@ -475,10 +482,10 @@ function findOptimalNonOverlappingWords(words) {
     if (currentSolution.length >= 6 && currentSolution.length <= 9) {
       return;
     }
-  
+
     for (let i = startIndex; i < wordsArray.length; i++) {
       const [word, coords] = wordsArray[i];
-  
+
       if (!trie.hasOverlap(coords)) {
         const newTrie = new CoordinateTrie();
         for (const [existingWord, existingCoords] of currentSolution) {
@@ -492,8 +499,14 @@ function findOptimalNonOverlappingWords(words) {
   backtrack();
 
   const optimalNonOverlappingWords = new Map(bestSolution);
-  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.size);
-  console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords.entries());
+  console.log(
+    'Optimal Non-overlapping Words:',
+    optimalNonOverlappingWords.size
+  );
+  console.log(
+    'Optimal Non-overlapping Words:',
+    optimalNonOverlappingWords.entries()
+  );
   return optimalNonOverlappingWords;
 }
 
