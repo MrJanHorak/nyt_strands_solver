@@ -1,4 +1,4 @@
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
@@ -525,6 +525,10 @@ function mutate(individual) {
   return individual;
 }
 // Main GA loop
+
+let bestSolution = population[0];
+let bestFitness = fitness(bestSolution);
+
 for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
   let newPopulation = [];
   for (let i = 0; i < POPULATION_SIZE; i++) {
@@ -535,11 +539,30 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
     newPopulation.push(child);
   }
   population = newPopulation;
-console.log('Generation:', generation, 'Best Fitness:', population.reduce((a, b) => fitness(a) > fitness(b) ? a : b));
-  // Check if a solution that covers all cells has been found
+
+  // Check if a better solution has been found
   const bestIndividual = population.reduce((a, b) => fitness(a) > fitness(b) ? a : b);
-  if (fitness(bestIndividual) === rows * cols) {
-    console.log('Solution found:', bestIndividual);
+  const bestIndividualFitness = fitness(bestIndividual);
+  if (bestIndividualFitness > bestFitness) {
+    bestSolution = bestIndividual;
+    bestFitness = bestIndividualFitness;
+  }
+
+  console.log('Generation:', generation, 'Best Fitness:', bestFitness);
+
+  // Check if a solution that covers all cells has been found
+  if (bestFitness === rows * cols) {
+    console.log('Solution found:', bestSolution);
     break;
   }
+  
+  console.log('Best solution found:', bestSolution);
+  
+  // Log the words and their coordinates in the best solution
+  // for (const word of bestSolution) {
+  //   const coords = foundWords.get(word);
+  //   console.log('Word:', word, 'Coordinates:', coords);
+  // }
 }
+
+console.log('Best solution found:', bestSolution);
