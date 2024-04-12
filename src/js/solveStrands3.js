@@ -3,15 +3,15 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  ['E', 'R', 'M', 'F', 'A', 'N'],
-  ['V', 'I', 'E', 'A', 'K', 'T'],
-  ['E', 'M', 'G', 'F', 'E', 'A'],
-  ['R', 'E', 'I', 'B', 'N', 'S'],
-  ['T', 'N', 'E', 'O', 'Y', 'S'],
-  ['A', 'M', 'L', 'I', 'I', 'U'],
-  ['E', 'Y', 'E', 'V', 'I', 'L'],
-  ['R', 'D', 'A', 'D', 'E', 'L'],
-];
+  [ 'O', 'M', 'R', 'T', 'U', 'T' ],
+  [ 'M', 'P', 'M', 'E', 'P', 'U' ],
+  [ 'O', 'R', 'U', 'E', 'C', 'O' ],
+  [ 'P', 'M', 'T', 'I', 'U', 'C' ],
+  [ 'G', 'U', 'R', 'T', 'S', 'O' ],
+  [ 'G', 'O', 'A', 'I', 'U', 'N' ],
+  [ 'O', 'M', 'O', 'S', 'A', 'C' ],
+  [ 'A', 'M', 'N', 'C', 'N', 'A' ]
+]
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -439,6 +439,10 @@ const MAX_GENERATIONS = 10000;
 const TARGET_FITNESS = rows * cols;
 const CURRENT_LENGTH = 10;
 const LARGE_PENALTY = 100;
+const TOURNAMENT_SIZE = 2;
+const MUTATION_RATE = 0.1;
+const ELITISM_COUNT = 5;
+const DIVERSITY_COUNT = 5;
 
 // Initialization
 let population = [];
@@ -457,7 +461,7 @@ for (let i = 0; i < POPULATION_SIZE; i++) {
 function fitness(individual) {
   let coverage = 0;
   let overlaps = 0;
-  const coveredCoords = new Set();
+  const coveredCoords = new Map();
 
   for (const word of individual) {
     const coords = foundWords.get(word);
@@ -468,7 +472,7 @@ function fitness(individual) {
       if (coveredCoords.has(key)) {
         overlaps++;
       } else {
-        coveredCoords.add(key);
+        coveredCoords.set(key, word);
       }
     }
   }
@@ -489,6 +493,21 @@ function selection(population) {
     }
   }
   return population[population.length - 1];
+}
+
+function tournamentSelection(population, tournamentSize) {
+  // Select a number of individuals at random
+  const tournament = Array.from({ length: tournamentSize }, () => {
+    const index = Math.floor(Math.random() * population.length);
+    return population[index];
+  });
+
+  // Select the best individual
+  const bestIndividual = tournament.reduce((a, b) =>
+    fitness(a) > fitness(b) ? a : b
+  );
+
+  return bestIndividual;
 }
 
 // Crossover
@@ -533,7 +552,7 @@ function crossover(parent1, parent2) {
 // Mutation
 function mutate(individual) {
   const wordsArray = Array.from(foundWords.keys());
-  const numMutations = Math.floor(Math.random() * individual.length);
+  const numMutations = Math.floor(MUTATION_RATE * individual.length);
 
   // Create a trie from the individual
   const trie = new CoordinateTrie();
@@ -575,6 +594,29 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
     child = mutate(child);
     newPopulation.push(child);
   }
+
+  const sortedPopulation = population.slice().sort((a, b) => fitness(b) - fitness(a));
+  for (let i = 0; i < ELITISM_COUNT; i++) {
+    newPopulation.push(sortedPopulation[i]);
+  }
+  for (let i = 0; i < DIVERSITY_COUNT; i++) {
+    const individual = Array.from(
+      { length: Math.floor(Math.random() * 10) },
+      () => {
+        const wordsArray = Array.from(foundWords.keys());
+        return wordsArray[Math.floor(Math.random() * wordsArray.length)];
+      }
+    );
+    newPopulation.push(individual);
+  }
+  
+  // for (let i = 0; i < POPULATION_SIZE; i++) {
+  //   const parent1 = tournamentSelection(population, TOURNAMENT_SIZE);
+  //   const parent2 = tournamentSelection(population, TOURNAMENT_SIZE);
+  //   let child = crossover(parent1, parent2);
+  //   child = mutate(child);
+  //   newPopulation.push(child);
+  // }
   population = newPopulation;
 
   // Calculate the average fitness score of the population
