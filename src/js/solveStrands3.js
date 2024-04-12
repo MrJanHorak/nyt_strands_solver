@@ -451,9 +451,20 @@ for (let i = 0; i < POPULATION_SIZE; i++) {
 // Fitness Function
 function fitness(individual) {
   let totalCoverage = 0;
+  let coverageSet = new Set();
   for (const word of individual) {
     const coords = foundWords.get(word);
+    for (const coord of coords) {
+      // If the coordinate is already covered by another word, return a negative fitness score
+      if (coverageSet.has(coord)) {
+        return -totalCoverage;
+      }
+      coverageSet.add(coord);
+    }
     totalCoverage += coords.length;
+  }
+  if (totalCoverage > 48) {
+    return -totalCoverage;
   }
   return totalCoverage;
 }
@@ -474,20 +485,36 @@ function selection(population) {
 }
 
 // Crossover
+// function crossover(parent1, parent2) {
+//   const crossoverPoint = Math.floor(Math.random() * parent1.length);
+//   let child = [...parent1.slice(0, crossoverPoint), ...parent2.slice(crossoverPoint)];
+
+//   // Remove overlapping words
+//   const trie = new CoordinateTrie();
+//   child = child.filter(word => {
+//     const coords = foundWords.get(word);  // Retrieve the coordinates for the word
+//     if (!trie.hasOverlap(word, coords)) {  // Pass the coordinates to hasOverlap
+//       trie.insert(word, coords);
+//       return true;
+//     }
+//     return false;
+//   });
+
+//   return child;
+// }
+
 function crossover(parent1, parent2) {
   const crossoverPoint = Math.floor(Math.random() * parent1.length);
   let child = [...parent1.slice(0, crossoverPoint), ...parent2.slice(crossoverPoint)];
 
-  // Remove overlapping words
+  // Create a CoordinateTrie from the child
   const trie = new CoordinateTrie();
-  child = child.filter(word => {
-    const coords = foundWords.get(word);  // Retrieve the coordinates for the word
-    if (!trie.hasOverlap(word, coords)) {  // Pass the coordinates to hasOverlap
-      trie.insert(word, coords);
-      return true;
-    }
-    return false;
-  });
+  for (const word of child) {
+    trie.insert(word, foundWords.get(word));
+  }
+
+  // Remove overlapping words
+  child = child.filter(word => !trie.hasOverlap(word, foundWords.get(word)));
 
   return child;
 }
