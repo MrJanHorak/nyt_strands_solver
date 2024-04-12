@@ -1,17 +1,17 @@
-import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  [ 'E', 'R', 'M', 'F', 'A', 'N' ],
-  [ 'V', 'I', 'E', 'A', 'K', 'T' ],
-  [ 'E', 'M', 'G', 'F', 'E', 'A' ],
-  [ 'R', 'E', 'I', 'B', 'N', 'S' ],
-  [ 'T', 'N', 'E', 'O', 'Y', 'S' ],
-  [ 'A', 'M', 'L', 'I', 'I', 'U' ],
-  [ 'E', 'Y', 'E', 'V', 'I', 'L' ],
-  [ 'R', 'D', 'A', 'D', 'E', 'L' ]
-]
+  ['E', 'R', 'M', 'F', 'A', 'N'],
+  ['V', 'I', 'E', 'A', 'K', 'T'],
+  ['E', 'M', 'G', 'F', 'E', 'A'],
+  ['R', 'E', 'I', 'B', 'N', 'S'],
+  ['T', 'N', 'E', 'O', 'Y', 'S'],
+  ['A', 'M', 'L', 'I', 'I', 'U'],
+  ['E', 'Y', 'E', 'V', 'I', 'L'],
+  ['R', 'D', 'A', 'D', 'E', 'L'],
+];
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -434,39 +434,46 @@ console.log('Complete Word Sets:', completeWordSets);
 // const optimalNonOverlappingWords = findOptimalNonOverlappingWords(foundWords);
 // console.log('Optimal Non-overlapping Words:', optimalNonOverlappingWords);
 
-
 const POPULATION_SIZE = foundWords.size;
 const MAX_GENERATIONS = 10000;
+const TARGET_FITNESS = rows * cols;
+const CURRENT_LENGTH = 10;
+const LARGE_PENALTY = 100;
 
 // Initialization
 let population = [];
 for (let i = 0; i < POPULATION_SIZE; i++) {
-  const individual = Array.from({length: Math.floor(Math.random() * 10)}, () => {
-    const wordsArray = Array.from(foundWords.keys());
-    return wordsArray[Math.floor(Math.random() * wordsArray.length)];
-  });
+  const individual = Array.from(
+    { length: Math.floor(Math.random() * 10) },
+    () => {
+      const wordsArray = Array.from(foundWords.keys());
+      return wordsArray[Math.floor(Math.random() * wordsArray.length)];
+    }
+  );
   population.push(individual);
 }
 
 // Fitness Function
 function fitness(individual) {
-  let totalCoverage = 0;
-  let coverageSet = new Set();
+  let coverage = 0;
+  let overlaps = 0;
+  const coveredCoords = new Set();
+
   for (const word of individual) {
     const coords = foundWords.get(word);
+    coverage += coords.length;
+
     for (const coord of coords) {
-      // If the coordinate is already covered by another word, return a negative fitness score
-      if (coverageSet.has(coord)) {
-        return -totalCoverage;
+      const key = coord.join(',');
+      if (coveredCoords.has(key)) {
+        overlaps++;
+      } else {
+        coveredCoords.add(key);
       }
-      coverageSet.add(coord);
     }
-    totalCoverage += coords.length;
   }
-  if (totalCoverage > 48) {
-    return -totalCoverage;
-  }
-  return totalCoverage;
+
+  return coverage - overlaps * LARGE_PENALTY;
 }
 
 // Selection
@@ -504,17 +511,21 @@ function selection(population) {
 // }
 
 function crossover(parent1, parent2) {
-  const crossoverPoint = Math.floor(Math.random() * parent1.length);
-  let child = [...parent1.slice(0, crossoverPoint), ...parent2.slice(crossoverPoint)];
+  let child = [];
 
   // Create a CoordinateTrie from the child
   const trie = new CoordinateTrie();
-  for (const word of child) {
-    trie.insert(word, foundWords.get(word));
-  }
 
-  // Remove overlapping words
-  child = child.filter(word => !trie.hasOverlap(word, foundWords.get(word)));
+  // Select words from the parents one by one, and only add a word to the child if it does not overlap with the existing words
+  for (const parent of [parent1, parent2]) {
+    for (const word of parent) {
+      const coords = foundWords.get(word);
+      if (!trie.hasOverlap(word, coords)) {
+        trie.insert(word, coords);
+        child.push(word);
+      }
+    }
+  }
 
   return child;
 }
@@ -552,7 +563,6 @@ function mutate(individual) {
   return individual;
 }
 // Main GA loop
-
 let bestSolution = population[0];
 let bestFitness = fitness(bestSolution);
 
@@ -567,8 +577,37 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
   }
   population = newPopulation;
 
+  // Calculate the average fitness score of the population
+  let averageFitness =
+    population.reduce((sum, individual) => sum + fitness(individual), 0) /
+    population.length;
+
+  // Determine the length of the individuals in the next generation based on the average fitness score
+  let nextGenerationLength;
+  if (averageFitness > TARGET_FITNESS) {
+    nextGenerationLength = CURRENT_LENGTH - 1;
+  } else if (averageFitness < TARGET_FITNESS) {
+    nextGenerationLength = CURRENT_LENGTH + 1;
+  } else {
+    nextGenerationLength = CURRENT_LENGTH;
+  }
+
+  // Generate the next generation
+  let nextGeneration = [];
+  for (let i = 0; i < POPULATION_SIZE; i++) {
+    const individual = Array.from({ length: nextGenerationLength }, () => {
+      const wordsArray = Array.from(foundWords.keys());
+      return wordsArray[Math.floor(Math.random() * wordsArray.length)];
+    });
+    nextGeneration.push(individual);
+  }
+
+  population = nextGeneration;
+
   // Check if a better solution has been found
-  const bestIndividual = population.reduce((a, b) => fitness(a) > fitness(b) ? a : b);
+  const bestIndividual = population.reduce((a, b) =>
+    fitness(a) > fitness(b) ? a : b
+  );
   const bestIndividualFitness = fitness(bestIndividual);
   if (bestIndividualFitness > bestFitness) {
     bestSolution = bestIndividual;
@@ -582,9 +621,9 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
     console.log('Solution found:', bestSolution);
     break;
   }
-  
+
   console.log('Best solution found:', bestSolution);
-  
+
   // Log the words and their coordinates in the best solution
   // for (const word of bestSolution) {
   //   const coords = foundWords.get(word);
@@ -593,3 +632,19 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
 }
 
 console.log('Best solution found:', bestSolution);
+
+let grid = Array.from({ length: rows }, () => Array(cols).fill(' '));
+
+// Fill in the letters of each word at their corresponding coordinates
+for (const word of bestSolution) {
+  const coords = foundWords.get(word);
+  for (let i = 0; i < word.length; i++) {
+    const [x, y] = coords[i];
+    grid[x][y] = word[i];
+  }
+}
+
+// Output the grid
+for (const row of grid) {
+  console.log(row.join(' '));
+}
