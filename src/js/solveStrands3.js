@@ -3,15 +3,15 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  [ 'O', 'M', 'R', 'T', 'U', 'T' ],
-  [ 'M', 'P', 'M', 'E', 'P', 'U' ],
-  [ 'O', 'R', 'U', 'E', 'C', 'O' ],
-  [ 'P', 'M', 'T', 'I', 'U', 'C' ],
-  [ 'G', 'U', 'R', 'T', 'S', 'O' ],
-  [ 'G', 'O', 'A', 'I', 'U', 'N' ],
-  [ 'O', 'M', 'O', 'S', 'A', 'C' ],
-  [ 'A', 'M', 'N', 'C', 'N', 'A' ]
-]
+  ['R', 'C', 'O', 'N', 'N', 'A'],
+  ['Q', 'O', 'K', 'S', 'A', 'V'],
+  ['U', 'E', 'E', 'B', 'I', 'R'],
+  ['T', 'N', 'H', 'A', 'O', 'I'],
+  ['R', 'E', 'J', 'N', 'P', 'N'],
+  ['A', 'R', 'U', 'O', 'D', 'S'],
+  ['N', 'S', 'I', 'O', 'R', 'H'],
+  ['E', 'Y', 'S', 'A', 'U', 'S'],
+];
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -440,7 +440,7 @@ const TARGET_FITNESS = rows * cols;
 const CURRENT_LENGTH = 10;
 const LARGE_PENALTY = 100;
 const TOURNAMENT_SIZE = 2;
-const MUTATION_RATE = 0.1;
+const MUTATION_RATE = 0.3;
 const ELITISM_COUNT = 5;
 const DIVERSITY_COUNT = 5;
 
@@ -595,7 +595,9 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
     newPopulation.push(child);
   }
 
-  const sortedPopulation = population.slice().sort((a, b) => fitness(b) - fitness(a));
+  const sortedPopulation = population
+    .slice()
+    .sort((a, b) => fitness(b) - fitness(a));
   for (let i = 0; i < ELITISM_COUNT; i++) {
     newPopulation.push(sortedPopulation[i]);
   }
@@ -609,7 +611,7 @@ for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
     );
     newPopulation.push(individual);
   }
-  
+
   // for (let i = 0; i < POPULATION_SIZE; i++) {
   //   const parent1 = tournamentSelection(population, TOURNAMENT_SIZE);
   //   const parent2 = tournamentSelection(population, TOURNAMENT_SIZE);
