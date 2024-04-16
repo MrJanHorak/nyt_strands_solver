@@ -1,17 +1,17 @@
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  ['L', 'E', 'A', 'E', 'S', 'P'],
-  ['A', 'P', 'C', 'M', 'A', 'E'],
-  ['I', 'K', 'O', 'R', 'R', 'R'],
-  ['R', 'E', 'T', 'Q', 'R', 'O'],
-  ['T', 'G', 'N', 'T', 'U', 'S'],
-  ['E', 'I', 'E', 'E', 'I', 'R'],
-  ['V', 'R', 'E', 'M', 'I', 'O'],
-  ['S', 'K', 'A', 'T', 'R', 'R'],
-];
+  [ 'T', 'A', 'W', 'N', 'R', 'E' ],
+  [ 'E', 'R', 'H', 'T', 'E', 'T' ],
+  [ 'T', 'E', 'E', 'I', 'N', 'U' ],
+  [ 'A', 'C', 'B', 'L', 'T', 'E' ],
+  [ 'S', 'A', 'T', 'L', 'I', 'L' ],
+  [ 'T', 'E', 'I', 'I', 'C', 'E' ],
+  [ 'E', 'E', 'O', 'N', 'E', 'T' ],
+  [ 'L', 'H', 'P', 'C', 'I', 'R' ]
+]
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -440,15 +440,15 @@ const TARGET_FITNESS = rows * cols;
 const CURRENT_LENGTH = 10;
 const LARGE_PENALTY = 100;
 const TOURNAMENT_SIZE = 2;
-const MUTATION_RATE = 0.3;
-const ELITISM_COUNT = 5;
+const MUTATION_RATE = 0.5;
+const ELITISM_COUNT = 6;
 const DIVERSITY_COUNT = 5;
 
 // Initialization
 let population = [];
 for (let i = 0; i < POPULATION_SIZE; i++) {
   const individual = Array.from(
-    { length: Math.floor(Math.random() * 10) },
+    { length: 9 },
     () => {
       const wordsArray = Array.from(foundWords.keys());
       return wordsArray[Math.floor(Math.random() * wordsArray.length)];
