@@ -3,14 +3,14 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  [ 'M', 'A', 'A', 'R', 'O', 'N' ],
-  [ 'R', 'C', 'T', 'N', 'U', 'I' ],
-  [ 'S', 'A', 'K', 'T', 'I', 'T' ],
-  [ 'E', 'P', 'T', 'R', 'O', 'N' ],
-  [ 'C', 'P', 'E', 'H', 'T', 'R' ],
-  [ 'T', 'A', 'D', 'E', 'C', 'A' ],
-  [ 'I', 'S', 'E', 'O', 'R', 'I' ],
-  [ 'A', 'G', 'R', 'U', 'E', 'N' ]
+  [ 'M', 'O', 'T', 'H', 'R', 'E' ],
+  [ 'A', 'R', 'L', 'I', 'D', 'A' ],
+  [ 'E', 'I', 'T', 'H', 'A', 'T' ],
+  [ 'S', 'N', 'O', 'D', 'L', 'E' ],
+  [ 'G', 'L', 'N', 'E', 'S', 'H' ],
+  [ 'C', 'H', 'E', 'T', 'T', 'C' ],
+  [ 'C', 'P', 'T', 'M', 'I', 'E' ],
+  [ 'T', 'A', 'H', 'I', 'B', 'L' ]
 ]
 const rows = board.length;
 const cols = board[0].length;
