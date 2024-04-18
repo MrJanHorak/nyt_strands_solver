@@ -3,14 +3,14 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  [ 'T', 'A', 'W', 'N', 'R', 'E' ],
-  [ 'E', 'R', 'H', 'T', 'E', 'T' ],
-  [ 'T', 'E', 'E', 'I', 'N', 'U' ],
-  [ 'A', 'C', 'B', 'L', 'T', 'E' ],
-  [ 'S', 'A', 'T', 'L', 'I', 'L' ],
-  [ 'T', 'E', 'I', 'I', 'C', 'E' ],
-  [ 'E', 'E', 'O', 'N', 'E', 'T' ],
-  [ 'L', 'H', 'P', 'C', 'I', 'R' ]
+  [ 'M', 'A', 'A', 'R', 'O', 'N' ],
+  [ 'R', 'C', 'T', 'N', 'U', 'I' ],
+  [ 'S', 'A', 'K', 'T', 'I', 'T' ],
+  [ 'E', 'P', 'T', 'R', 'O', 'N' ],
+  [ 'C', 'P', 'E', 'H', 'T', 'R' ],
+  [ 'T', 'A', 'D', 'E', 'C', 'A' ],
+  [ 'I', 'S', 'E', 'O', 'R', 'I' ],
+  [ 'A', 'G', 'R', 'U', 'E', 'N' ]
 ]
 const rows = board.length;
 const cols = board[0].length;
@@ -182,6 +182,38 @@ function findNonOverlappingWords(words) {
   console.log('Non-overlapping Words:', nonOverlappingWords.entries());
   return nonOverlappingWords;
 }
+
+function findNonOverlappingWordsNested(words) {
+  const wordsArray = Array.from(words.entries()).sort(
+    (a, b) => b[0].length - a[0].length
+  );
+  const nonOverlappingWordsNested = new Map();
+
+  for (let i = 0; i < wordsArray.length; i++) {
+    const [word1, coords1] = wordsArray[i];
+    let overlaps = false;
+
+    for (let j = 0; j < wordsArray.length; j++) {
+      if (i !== j) {
+        const [word2, coords2] = wordsArray[j];
+        if (shareCoordinates(coords1, coords2)) {
+          overlaps = true;
+          break;
+        }
+      }
+    }
+
+    if (!overlaps) {
+      nonOverlappingWords.set(word1, coords1);
+    }
+  }
+
+  console.log('Non-overlapping Words Nested:', nonOverlappingWordsNested.size);
+  console.log('Non-overlapping Words Nested:', nonOverlappingWordsNested.entries());
+
+  return nonOverlappingWordsNested;
+}
+findNonOverlappingWordsNested(foundWords);
 
 function getSubsets(array, index = 0, currentSubset = []) {
   if (index === array.length) {
