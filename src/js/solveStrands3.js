@@ -3,15 +3,15 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  [ 'M', 'S', 'I', 'C', 'E', 'T' ],
-  [ 'Y', 'U', 'T', 'M', 'A', 'R' ],
-  [ 'D', 'A', 'I', 'T', 'F', 'F' ],
-  [ 'M', 'E', 'L', 'K', 'E', 'I' ],
-  [ 'C', 'O', 'S', 'V', 'C', 'R' ],
-  [ 'T', 'R', 'O', 'P', 'I', 'E' ],
-  [ 'S', 'E', 'W', 'R', 'E', 'H' ],
-  [ 'N', 'S', 'D', 'W', 'A', 'T' ]
-]
+  ['T', 'R', 'U', 'T', 'A', 'M'],
+  ['S', 'E', 'D', 'E', 'H', 'R'],
+  ['P', 'R', 'O', 'S', 'B', 'C'],
+  ['S', 'T', 'L', 'T', 'L', 'M'],
+  ['U', 'N', 'L', 'R', 'E', 'A'],
+  ['A', 'S', 'T', 'I', 'A', 'N'],
+  ['T', 'K', 'E', 'U', 'R', 'T'],
+  ['R', 'E', 'R', 'D', 'G', 'E'],
+];
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
@@ -209,7 +209,10 @@ function findNonOverlappingWordsNested(words) {
   }
 
   console.log('Non-overlapping Words Nested:', nonOverlappingWordsNested.size);
-  console.log('Non-overlapping Words Nested:', nonOverlappingWordsNested.entries());
+  console.log(
+    'Non-overlapping Words Nested:',
+    nonOverlappingWordsNested.entries()
+  );
 
   return nonOverlappingWordsNested;
 }
@@ -479,13 +482,10 @@ const DIVERSITY_COUNT = 5;
 // Initialization
 let population = [];
 for (let i = 0; i < POPULATION_SIZE; i++) {
-  const individual = Array.from(
-    { length: 9 },
-    () => {
-      const wordsArray = Array.from(foundWords.keys());
-      return wordsArray[Math.floor(Math.random() * wordsArray.length)];
-    }
-  );
+  const individual = Array.from({ length: 9 }, () => {
+    const wordsArray = Array.from(foundWords.keys());
+    return wordsArray[Math.floor(Math.random() * wordsArray.length)];
+  });
   population.push(individual);
 }
 
