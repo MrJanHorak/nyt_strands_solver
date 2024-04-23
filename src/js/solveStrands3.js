@@ -3,15 +3,15 @@ import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 const board = [
-  ['E', 'R', 'A', 'T', 'H', 'G'],
-  ['G', 'D', 'M', 'B', 'N', 'I'],
-  ['F', 'A', 'O', 'G', 'U', 'K'],
-  ['S', 'A', 'R', 'A', 'S', 'E'],
-  ['O', 'N', 'T', 'N', 'T', 'Y'],
-  ['R', 'R', 'C', 'U', 'R', 'E'],
-  ['E', 'R', 'E', 'H', 'N', 'I'],
-  ['A', 'S', 'S', 'A', 'S', 'S'],
-];
+  [ 'A', 'V', 'A', 'R', 'S', 'P' ],
+  [ 'N', 'G', 'S', 'N', 'T', 'E' ],
+  [ 'I', 'U', 'E', 'I', 'C', 'R' ],
+  [ 'L', 'L', 'E', 'D', 'A', 'E' ],
+  [ 'R', 'A', 'S', 'R', 'N', 'T' ],
+  [ 'U', 'A', 'G', 'S', 'T', 'U' ],
+  [ 'O', 'F', 'L', 'N', 'Y', 'B' ],
+  [ 'L', 'T', 'I', 'P', 'U', 'R' ]
+]
 const rows = board.length;
 const cols = board[0].length;
 const foundWords = new Map();
