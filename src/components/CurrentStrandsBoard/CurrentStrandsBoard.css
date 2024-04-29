@@ -1,0 +1,41 @@
+.current-strands-board{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 517px;
+    height: 422px;
+    background-color: white;
+}
+
+.current-strand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 324px;
+    height: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.strand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background-color: #fff;
+    color:black;
+    font-size: 26px;
+}
+
+.strand:hover {
+    background-color: #dbd8c5;
+    cursor: pointer;
+    border-radius: 50%;
+}
