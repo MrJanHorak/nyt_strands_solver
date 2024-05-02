@@ -1,10 +1,12 @@
 export const currentStrands = [
-  [ 'R', 'P', 'E', 'M', 'N', 'I' ],
-  [ 'N', 'I', 'A', 'K', 'A', 'P' ],
-  [ 'E', 'C', 'T', 'I', 'N', 'S' ],
-  [ 'F', 'O', 'L', 'C', 'B', 'R' ],
-  [ 'A', 'S', 'I', 'J', 'E', 'A' ],
-  [ 'M', 'U', 'E', 'W', 'D', 'N' ],
-  [ 'N', 'L', 'O', 'C', 'Y', 'L' ],
-  [ 'O', 'M', 'M', 'S', 'E', 'A' ]
-]
+  ['L', 'E', 'E', 'M', 'N', 'I'],
+  ['B', 'W', 'H', 'O', 'P', 'U'],
+  ['A', 'T', 'N', 'E', 'N', 'G'],
+  ['R', 'H', 'O', 'C', 'A', 'R'],
+  ['R', 'I', 'M', 'P', 'E', 'C'],
+  ['O', 'L', 'B', 'P', 'O', 'A'],
+  ['W', 'E', 'N', 'I', 'L', 'R'],
+  ['I', 'R', 'O', 'H', 'S', 'Y'],
+];
+
+export const currentClue = 'A token of our appreciation';
