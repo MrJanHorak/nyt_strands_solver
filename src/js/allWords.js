@@ -1,9 +1,8 @@
 import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
+// import CoordinateTrie from './trieCoordinates.js';
+// Example usage
 
-const rows = board.length;
-const cols = board[0].length;
-const foundWords = new Map();
 
 function removeShortWords(dictionary) {
   for (const word in dictionary) {
@@ -19,6 +18,7 @@ function removeShortWords(dictionary) {
   return dictionary;
 }
 
+// Usage
 const updatedDictionary = removeShortWords(dictionary);
 
 const trie = new Trie();
@@ -54,7 +54,7 @@ function findAllWords(
   }
 
   // 2. Add current cell to visited set
-  visited.add(`${row},${col}`);
+  visited.add(`${row},${col}`); // Include current word for coordinate tracking
 
   if (currentWord.length >= 4 && trie.search(currentWord)) {
     const wordCoordinates = Array.from(visited)
@@ -63,6 +63,7 @@ function findAllWords(
         return [parseInt(r), parseInt(c)];
       });
     foundWords.set(currentWord, wordCoordinates);
+    // fs.appendFileSync('foundWords.txt', `${currentWord}, ${JSON.stringify(wordCoordinates)}\n`)
   }
 
   // 4. Explore neighbors recursively
@@ -102,9 +103,38 @@ function findAllWords(
     }
   }
 
-  visited.delete(`${row},${col}`);
+  visited.delete(`${row},${col}`); // Remove current cell from visited
 
   // return foundWords;
+  return Array.from(foundWords, ([word, coordinates]) => ({
+    word,
+    coordinates,
+  }));
+}
+
+export function findWordsInBoard(board) {
+  const rows = board.length;
+  const cols = board[0].length;
+  const foundWords = new Map();
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const visited = new Set();
+
+      findAllWords(
+        row,
+        col,
+        board[row][col].toLowerCase(),
+        visited,
+        board,
+        trie,
+        rows,
+        cols,
+        foundWords
+      );
+    }
+  }
+
   return Array.from(foundWords, ([word, coordinates]) => ({
     word,
     coordinates,

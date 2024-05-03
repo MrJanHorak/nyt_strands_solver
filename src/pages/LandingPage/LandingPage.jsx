@@ -10,9 +10,15 @@ import './LandingPage.css';
 // services
 import getStrandsBoardAndClue from '../../services/getCurrentStrandsBoard';
 
+//helper functions
+import { findWordsInBoard } from '../../js/allWords';
+
 function LandingPage() {
   const [currentStrandsBoard, setCurrentStrandsBoard] = useState([]);
   const [clue, setClue] = useState('');
+  const [possibleWords, setPossibleWords] = useState([]);
+  const [currentWord, setCurrentWord] = useState({});
+  const [boardIndex, setBoardIndex] = useState([]);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
@@ -21,11 +27,23 @@ function LandingPage() {
     });
   }, []);
 
+  useEffect(() => {
+    if (currentStrandsBoard.length > 0) {
+    const possibleWords = findWordsInBoard(currentStrandsBoard);
+    setPossibleWords(possibleWords);
+    }
+  }, [currentStrandsBoard]);
+
+  console.log(currentStrandsBoard)
+  console.log(boardIndex)
+  console.log(possibleWords)
+
+
   return (
     <div className='solver-container'>
       <Header />
       <TodaysTheme clue={clue} />
-      <CurrentStrandsBoard currentStrands={currentStrandsBoard} />
+      <CurrentStrandsBoard currentStrands={currentStrandsBoard} setBoardIndex= {setBoardIndex} />
       {/* <PossibleWords /> */}
     </div>
   );

@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 import './CurrentStrandsBoard.css';
 
-const handleSelect = (e, rowIndex, columnIndex) => {
-  e.preventDefault();
-  console.log(rowIndex, columnIndex);
-};
 
-function CurrentStrandsBoard({currentStrands}) {
+function CurrentStrandsBoard({currentStrands, setBoardIndex}) {
 
-  console.log(currentStrands);
+  const handleSelect = (e, rowIndex, columnIndex) => {
+    e.preventDefault();
+    setBoardIndex([rowIndex, columnIndex]);
+  };
 
   useEffect(() => {
     console.log('CurrentStrandsBoard useEffect');
