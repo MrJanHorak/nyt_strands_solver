@@ -1,14 +1,19 @@
+import { useEffect } from 'react';
 import './CurrentStrandsBoard.css';
-
-//Data
-import { currentStrands } from '../../data/currentStrands';
 
 const handleSelect = (e, rowIndex, columnIndex) => {
   e.preventDefault();
   console.log(rowIndex, columnIndex);
 };
 
-function CurrentStrandsBoard() {
+function CurrentStrandsBoard({currentStrands}) {
+
+  console.log(currentStrands);
+
+  useEffect(() => {
+    console.log('CurrentStrandsBoard useEffect');
+  }, [currentStrands]);
+
   return (
     <>
       <div className='current-strands-board'>
