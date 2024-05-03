@@ -32,10 +32,18 @@
     background-color: #fff;
     color:black;
     font-size: 26px;
+    margin: 3px;
+    border-radius: 50%;
 }
 
 .strand:hover {
     background-color: #dbd8c5;
     cursor: pointer;
+    border-radius: 50%;
+}
+
+.highlighted {
+    /* background-color: #dbd8c5; */
+    outline: 3px dashed #4a4a49;
     border-radius: 50%;
 }

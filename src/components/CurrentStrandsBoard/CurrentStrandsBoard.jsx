@@ -2,16 +2,19 @@ import { useEffect } from 'react';
 import './CurrentStrandsBoard.css';
 
 
-function CurrentStrandsBoard({currentStrands, setBoardIndex}) {
+function CurrentStrandsBoard({currentStrands, setBoardIndex, currentWord, setCurrentWord}) {
 
   const handleSelect = (e, rowIndex, columnIndex) => {
     e.preventDefault();
     setBoardIndex([rowIndex, columnIndex]);
+    setCurrentWord(null)
   };
+
+
 
   useEffect(() => {
     console.log('CurrentStrandsBoard useEffect');
-  }, [currentStrands]);
+  }, [currentStrands,currentWord]);
 
   return (
     <>
@@ -24,7 +27,7 @@ function CurrentStrandsBoard({currentStrands, setBoardIndex}) {
                   return (
                     <div
                       key={`${rowIndex}, ${columnIndex}`}
-                      className='strand'
+                      className={`strand ${currentWord?.coordinates.some(([x, y]) => x === rowIndex && y === columnIndex) ? 'highlighted' : ''}`}
                       onClick={(e) => handleSelect(e, rowIndex, columnIndex)}
                     >
                       {strand}
