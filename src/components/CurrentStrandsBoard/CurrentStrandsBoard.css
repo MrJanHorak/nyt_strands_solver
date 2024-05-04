@@ -1,4 +1,5 @@
 .current-strands-board{
+    user-select: none;
     display: flex;
     flex-direction: column;
     justify-content: center;

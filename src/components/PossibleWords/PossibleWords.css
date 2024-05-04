@@ -1,7 +1,53 @@
 .possible-words {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
   margin-top: 20px;
-  height: 250px;
+}
+
+.total {
+ user-select: none;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+
+.words-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  width: 365px;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.possible-word {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 35px;
+  background-color: #fff;
+  color: black;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 2px 3px 2px 3px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.possible-word:hover {
+  background-color: #ccc;
+}
+
+.possible-word::selection {
+  background: transparent;
+}
+
+.current-word {
+  background-color: #5985a6;
+  color:#fff;
 }

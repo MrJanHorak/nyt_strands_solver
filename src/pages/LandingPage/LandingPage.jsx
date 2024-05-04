@@ -30,21 +30,33 @@ function LandingPage() {
 
   useEffect(() => {
     if (currentStrandsBoard.length > 0) {
-    const possibleWords = findWordsInBoard(currentStrandsBoard);
-    setPossibleWords(possibleWords);
+      const possibleWords = findWordsInBoard(currentStrandsBoard);
+      setPossibleWords(possibleWords);
     }
-  }, [currentStrandsBoard]);
+  }, [currentStrandsBoard, currentWord]);
 
-  console.log(boardIndex)
-  console.log(possibleWords)
-console.log(currentWord)
+  console.log(boardIndex);
+  console.log(possibleWords);
+  console.log(currentWord);
 
   return (
     <div className='solver-container'>
       <Header />
       <TodaysTheme clue={clue} />
-      <CurrentStrandsBoard currentStrands={currentStrandsBoard} setBoardIndex= {setBoardIndex} currentWord={currentWord} setCurrentWord={setCurrentWord} />
-      <PossibleWords possibleWords={possibleWords} setCurrentWord={setCurrentWord} boardIndex={boardIndex} />
+      <div className='board-words-container'>
+        <CurrentStrandsBoard
+          currentStrands={currentStrandsBoard}
+          setBoardIndex={setBoardIndex}
+          currentWord={currentWord}
+          setCurrentWord={setCurrentWord}
+        />
+        <PossibleWords
+          possibleWords={possibleWords}
+          setCurrentWord={setCurrentWord}
+          boardIndex={boardIndex}
+          currentWord={currentWord}
+        />
+      </div>
     </div>
   );
 }
