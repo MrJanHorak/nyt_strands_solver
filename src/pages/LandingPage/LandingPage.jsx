@@ -20,6 +20,7 @@ function LandingPage() {
   const [possibleWords, setPossibleWords] = useState([]);
   const [currentWord, setCurrentWord] = useState(null);
   const [boardIndex, setBoardIndex] = useState([]);
+  const [selectedLetter, setSelectedLetter] = useState(null);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
@@ -49,12 +50,14 @@ function LandingPage() {
           setBoardIndex={setBoardIndex}
           currentWord={currentWord}
           setCurrentWord={setCurrentWord}
+          setSelectedLetter={setSelectedLetter}
         />
         <PossibleWords
           possibleWords={possibleWords}
           setCurrentWord={setCurrentWord}
           boardIndex={boardIndex}
           currentWord={currentWord}
+          selectedLetter={selectedLetter}
         />
       </div>
     </div>

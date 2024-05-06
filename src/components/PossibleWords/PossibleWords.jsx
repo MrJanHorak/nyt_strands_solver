@@ -1,5 +1,5 @@
 //styles
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './PossibleWords.css';
 
 function PossibleWords({
@@ -7,11 +7,31 @@ function PossibleWords({
   possibleWords,
   boardIndex,
   currentWord,
+  selectedLetter,
 }) {
-  const handleClick = (word) => {
-    setCurrentWord(word);
-  };
+  const [clickCounter, setClickCounter] = useState(0);
 
+  const handleClick = (word) => {
+    switch (clickCounter) {
+      case 0:
+        setClickCounter(1);
+        setCurrentWord(word);
+        break;
+      case 1:
+        if (word.word.startsWith(currentWord.word)) {
+          setClickCounter(2);
+        } else if (word.word !== currentWord.word) {
+          setCurrentWord(word);
+        }
+        break;
+      case 2:
+        setClickCounter(0);
+        setCurrentWord(null);
+        break;
+      default:
+        break;
+    }
+  };
   // only show words that contain the current index
   possibleWords = possibleWords.filter(
     (word) =>
@@ -27,6 +47,11 @@ function PossibleWords({
 
   return (
     <div className='possible-words'>
+      {selectedLetter && (
+        <div className='total'>
+          {possibleWords.length} words contain the letter: {selectedLetter}
+        </div>
+      )}
       <div className='words-container'>
         {possibleWords.map((word, index) => (
           <div
@@ -42,7 +67,6 @@ function PossibleWords({
           </div>
         ))}
       </div>
-      <div className='total'>Total: {possibleWords.length}</div>
     </div>
   );
 }
