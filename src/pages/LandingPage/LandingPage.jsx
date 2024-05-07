@@ -21,6 +21,7 @@ function LandingPage() {
   const [currentWord, setCurrentWord] = useState(null);
   const [boardIndex, setBoardIndex] = useState([]);
   const [selectedLetter, setSelectedLetter] = useState(null);
+  const [foundWords, setFoundWords] = useState([]);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
@@ -35,6 +36,11 @@ function LandingPage() {
       setPossibleWords(possibleWords);
     }
   }, [currentStrandsBoard, currentWord]);
+const foundAWord = (word) => {
+    const foundWordsCopy = [...foundWords];
+    foundWordsCopy.push(word);
+    setFoundWords(foundWordsCopy);
+};
 
   console.log(boardIndex);
   console.log(possibleWords);
@@ -58,6 +64,7 @@ function LandingPage() {
           boardIndex={boardIndex}
           currentWord={currentWord}
           selectedLetter={selectedLetter}
+          foundAWord={foundAWord}
         />
       </div>
     </div>

@@ -8,6 +8,7 @@ function PossibleWords({
   boardIndex,
   currentWord,
   selectedLetter,
+  foundAWord,
 }) {
   const [clickCounter, setClickCounter] = useState(0);
 
@@ -20,6 +21,7 @@ function PossibleWords({
       case 1:
         if (word.word.startsWith(currentWord.word)) {
           setClickCounter(2);
+          foundAWord(word);
         } else if (word.word !== currentWord.word) {
           setCurrentWord(word);
         }
