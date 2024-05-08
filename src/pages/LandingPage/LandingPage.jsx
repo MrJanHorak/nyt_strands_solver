@@ -37,6 +37,7 @@ function LandingPage() {
     }
   }, [currentStrandsBoard, currentWord]);
 const foundAWord = (word) => {
+  console.log(word)
     const foundWordsCopy = [...foundWords];
     foundWordsCopy.push(word);
     setFoundWords(foundWordsCopy);
@@ -45,6 +46,9 @@ const foundAWord = (word) => {
   console.log(boardIndex);
   console.log(possibleWords);
   console.log(currentWord);
+  console.log(foundWords);
+
+
 
   return (
     <div className='solver-container'>
