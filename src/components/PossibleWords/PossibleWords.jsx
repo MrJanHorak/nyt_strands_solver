@@ -9,6 +9,7 @@ function PossibleWords({
   currentWord,
   selectedLetter,
   foundAWord,
+  foundWords,
 }) {
   const [clickCounter, setClickCounter] = useState(0);
 
@@ -37,10 +38,16 @@ function PossibleWords({
   // only show words that contain the current index
   possibleWords = possibleWords.filter(
     (word) =>
-      boardIndex === undefined ||
-      word.coordinates.some(
-        ([x, y]) => x === boardIndex[0] && y === boardIndex[1]
-      )
+      (boardIndex === undefined ||
+        word.coordinates.some(
+          ([x, y]) => x === boardIndex[0] && y === boardIndex[1]
+        )) &&
+      (foundWords.some((foundWord) => foundWord.word === word.word) ||
+        !foundWords.some((foundWord) =>
+          foundWord.coordinates.some(([x, y]) =>
+            word.coordinates.some(([x2, y2]) => x === x2 && y === y2)
+          )
+        ))
   );
 
   useEffect(() => {

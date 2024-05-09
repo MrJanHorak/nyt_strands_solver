@@ -48,3 +48,8 @@
   outline: 3px dashed #4a4a49;
   border-radius: 50%;
 }
+.found {
+  background-color: #0dcad8;
+  outline: 0px solid #12b2ce;
+  border-radius: 50%;
+}

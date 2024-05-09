@@ -61,6 +61,7 @@ const foundAWord = (word) => {
           currentWord={currentWord}
           setCurrentWord={setCurrentWord}
           setSelectedLetter={setSelectedLetter}
+          foundWords={foundWords}
         />
         <PossibleWords
           possibleWords={possibleWords}
@@ -69,6 +70,7 @@ const foundAWord = (word) => {
           currentWord={currentWord}
           selectedLetter={selectedLetter}
           foundAWord={foundAWord}
+          foundWords={foundWords}
         />
       </div>
     </div>

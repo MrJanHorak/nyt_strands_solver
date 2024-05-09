@@ -7,11 +7,12 @@ function CurrentStrandsBoard({
   currentWord,
   setCurrentWord,
   setSelectedLetter,
+  foundWords,
 }) {
   const handleSelect = (e, rowIndex, columnIndex) => {
     e.preventDefault();
     setBoardIndex([rowIndex, columnIndex]);
-    setSelectedLetter(currentStrands[rowIndex][columnIndex]);    
+    setSelectedLetter(currentStrands[rowIndex][columnIndex]);
     setCurrentWord(null);
   };
 
@@ -35,6 +36,12 @@ function CurrentStrandsBoard({
                           ([x, y]) => x === rowIndex && y === columnIndex
                         )
                           ? 'highlighted'
+                          : foundWords.some((word) =>
+                              word.coordinates.some(
+                                ([x, y]) => x === rowIndex && y === columnIndex
+                              )
+                            )
+                          ? 'found'
                           : ''
                       }`}
                       onClick={(e) => handleSelect(e, rowIndex, columnIndex)}
