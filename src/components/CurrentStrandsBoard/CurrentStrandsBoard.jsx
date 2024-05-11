@@ -8,12 +8,14 @@ function CurrentStrandsBoard({
   setCurrentWord,
   setSelectedLetter,
   foundWords,
+  setClickCounter,
 }) {
   const handleSelect = (e, rowIndex, columnIndex) => {
     e.preventDefault();
     setBoardIndex([rowIndex, columnIndex]);
     setSelectedLetter(currentStrands[rowIndex][columnIndex]);
     setCurrentWord(null);
+    setClickCounter(0);
   };
 
   useEffect(() => {

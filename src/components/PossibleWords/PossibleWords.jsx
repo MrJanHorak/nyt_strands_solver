@@ -1,5 +1,5 @@
 //styles
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import './PossibleWords.css';
 
 function PossibleWords({
@@ -10,8 +10,10 @@ function PossibleWords({
   selectedLetter,
   foundAWord,
   foundWords,
+  setClickCounter,
+  clickCounter
 }) {
-  const [clickCounter, setClickCounter] = useState(0);
+ 
 
   const handleClick = (word) => {
     switch (clickCounter) {
@@ -20,15 +22,17 @@ function PossibleWords({
         setCurrentWord(word);
         break;
       case 1:
-        if (word.word.startsWith(currentWord.word)) {
+        if (currentWord && word.word.startsWith(currentWord.word)) {
           setClickCounter(2);
           foundAWord(word);
-        } else if (word.word !== currentWord.word) {
+          setCurrentWord(null);
+        } else if (currentWord && word.word !== currentWord.word) {
           setCurrentWord(word);
         }
         break;
       case 2:
         setClickCounter(0);
+        foundAWord(word);
         setCurrentWord(null);
         break;
       default:

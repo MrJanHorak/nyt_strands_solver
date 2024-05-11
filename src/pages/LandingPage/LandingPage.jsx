@@ -22,6 +22,7 @@ function LandingPage() {
   const [boardIndex, setBoardIndex] = useState([]);
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [foundWords, setFoundWords] = useState([]);
+  const [clickCounter, setClickCounter] = useState(0);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
@@ -36,19 +37,20 @@ function LandingPage() {
       setPossibleWords(possibleWords);
     }
   }, [currentStrandsBoard, currentWord]);
-const foundAWord = (word) => {
-  console.log(word)
+
+  const foundAWord = (word) => {
+    console.log(word);
     const foundWordsCopy = [...foundWords];
-    foundWordsCopy.push(word);
+    const wordIndex = foundWordsCopy.findIndex(
+      (foundWord) => JSON.stringify(foundWord) === JSON.stringify(word)
+    );
+    if (wordIndex !== -1) {
+      foundWordsCopy.splice(wordIndex, 1);
+    } else {
+      foundWordsCopy.push(word);
+    }
     setFoundWords(foundWordsCopy);
-};
-
-  console.log(boardIndex);
-  console.log(possibleWords);
-  console.log(currentWord);
-  console.log(foundWords);
-
-
+  };
 
   return (
     <div className='solver-container'>
@@ -62,6 +64,7 @@ const foundAWord = (word) => {
           setCurrentWord={setCurrentWord}
           setSelectedLetter={setSelectedLetter}
           foundWords={foundWords}
+          setClickCounter={setClickCounter}
         />
         <PossibleWords
           possibleWords={possibleWords}
@@ -71,6 +74,8 @@ const foundAWord = (word) => {
           selectedLetter={selectedLetter}
           foundAWord={foundAWord}
           foundWords={foundWords}
+          clickCounter={clickCounter}
+          setClickCounter={setClickCounter}
         />
       </div>
     </div>
