@@ -55,7 +55,7 @@ function PossibleWords({
   );
 
   useEffect(() => {
-    console.log(currentWord);
+  
   }, [currentWord]);
 
   return (

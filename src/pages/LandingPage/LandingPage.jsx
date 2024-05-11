@@ -39,7 +39,6 @@ function LandingPage() {
   }, [currentStrandsBoard, currentWord]);
 
   const foundAWord = (word) => {
-    console.log(word);
     const foundWordsCopy = [...foundWords];
     const wordIndex = foundWordsCopy.findIndex(
       (foundWord) => JSON.stringify(foundWord) === JSON.stringify(word)

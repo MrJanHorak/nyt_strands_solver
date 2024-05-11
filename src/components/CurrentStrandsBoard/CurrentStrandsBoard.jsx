@@ -18,9 +18,7 @@ function CurrentStrandsBoard({
     setClickCounter(0);
   };
 
-  useEffect(() => {
-    console.log('CurrentStrandsBoard useEffect');
-  }, [currentStrands, currentWord]);
+  useEffect(() => {}, [currentStrands, currentWord]);
 
   return (
     <>
