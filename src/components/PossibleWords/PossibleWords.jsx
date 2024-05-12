@@ -16,6 +16,13 @@ function PossibleWords({
  
 
   const handleClick = (word) => {
+
+    if (foundWords.some((foundWord) => foundWord.word === word.word)) {
+      foundAWord(word);
+      setCurrentWord(null);
+      return;
+    }
+    
     switch (clickCounter) {
       case 0:
         setClickCounter(1);
