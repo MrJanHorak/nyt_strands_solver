@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header';
 import TodaysTheme from '../../components/TodaysTheme/TodaysTheme';
 import CurrentStrandsBoard from '../../components/CurrentStrandsBoard/CurrentStrandsBoard';
 import PossibleWords from '../../components/PossibleWords/PossibleWords';
+import FoundWords from '../../components/FoundWords/FoundWords';
 
 //styles
 import './LandingPage.css';
@@ -77,6 +78,7 @@ function LandingPage() {
           setClickCounter={setClickCounter}
         />
       </div>
+      <FoundWords FoundWords={foundWords} />
     </div>
   );
 }
