@@ -22,7 +22,7 @@ function PossibleWords({
       setCurrentWord(null);
       return;
     }
-    
+
     switch (clickCounter) {
       case 0:
         setClickCounter(1);
@@ -73,19 +73,19 @@ function PossibleWords({
         </div>
       )}
       <div className='words-container'>
-        {possibleWords.map((word, index) => (
-          <div
-            className={`possible-word ${
-              currentWord && currentWord.word === word.word
-                ? 'current-word'
-                : ''
-            }`}
-            key={word.word + index}
-            onClick={() => handleClick(word)}
-          >
-            {word.word.toUpperCase()}
-          </div>
-        ))}
+{possibleWords.map((word, index) => (
+  <div
+    className={`
+      possible-word 
+      ${currentWord && currentWord.word === word.word ? 'current-word' : ''}
+      ${foundWords.some((foundWord) => foundWord.word === word.word) ? 'in-list' : ''}
+    `}
+    key={word.word + index}
+    onClick={() => handleClick(word)}
+  >
+    {word.word.toUpperCase()}
+  </div>
+))}
       </div>
     </div>
   );
