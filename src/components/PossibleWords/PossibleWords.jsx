@@ -19,6 +19,7 @@ function PossibleWords({
 
     if (foundWords.some((foundWord) => foundWord.word === word.word)) {
       foundAWord(word);
+      setClickCounter(0);
       setCurrentWord(null);
       return;
     }
