@@ -6,7 +6,7 @@
   align-items: center;
   width: 50%;
   height: 422px;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .current-strand {
@@ -30,7 +30,7 @@
   align-items: center;
   width: 44px;
   height: 44px;
-  background-color: #fff;
+  /* background-color: #fff; */
   color: black;
   font-size: 26px;
   margin: 3px;
@@ -48,8 +48,9 @@
   outline: 3px dashed #4a4a49;
   border-radius: 50%;
 }
+
 .found {
-  background-color: #0dcad8;
-  outline: 0px solid #12b2ce;
+  background-color: #aedfee;
+  outline: 0px solid #aedfee;
   border-radius: 50%;
 }

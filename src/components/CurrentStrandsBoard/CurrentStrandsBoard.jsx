@@ -22,38 +22,65 @@ function CurrentStrandsBoard({
 
   return (
     <>
-      <div className='current-strands-board'>
-        <div className='current-strands'>
-          {currentStrands.map((row, rowIndex) => {
-            return (
-              <div key={rowIndex} className='row'>
-                {row.map((strand, columnIndex) => {
-                  return (
-                    <div
-                      key={`${rowIndex}, ${columnIndex}`}
-                      className={`strand ${
-                        currentWord?.coordinates.some(
-                          ([x, y]) => x === rowIndex && y === columnIndex
-                        )
-                          ? 'highlighted'
-                          : foundWords.some((word) =>
-                              word.coordinates.some(
-                                ([x, y]) => x === rowIndex && y === columnIndex
+      <div style={{ position: 'relative' }}>
+        <div className='current-strands-board'>
+          <div className='current-strands'>
+            {currentStrands.map((row, rowIndex) => {
+              return (
+                <div key={rowIndex} className='row'>
+                  {row.map((strand, columnIndex) => {
+                    return (
+                      <div
+                        key={`${rowIndex}, ${columnIndex}`}
+                        className={`strand ${
+                          currentWord?.coordinates.some(
+                            ([x, y]) => x === rowIndex && y === columnIndex
+                          )
+                            ? 'highlighted'
+                            : foundWords.some((word) =>
+                                word.coordinates.some(
+                                  ([x, y]) =>
+                                    x === rowIndex && y === columnIndex
+                                )
                               )
-                            )
-                          ? 'found'
-                          : ''
-                      }`}
-                      onClick={(e) => handleSelect(e, rowIndex, columnIndex)}
-                    >
-                      {strand}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                            ? 'found'
+                            : ''
+                        }`}
+                        onClick={(e) => handleSelect(e, rowIndex, columnIndex)}
+                      >
+                        {strand}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <svg
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+            pointerEvents: 'none',
+          }}
+        >
+          {foundWords?.map((word, index) => (
+            <polyline
+              key={index}
+              points={word.coordinates
+                .map(
+                  ([y, x]) =>
+                    `${x * 51.5 + 50 / 2 - 1.5 * 55},${y * 55 + 55 / 2}`
+                )
+                .join(' ')}
+              style={{ fill: 'none', stroke: '#aedfee', strokeWidth: '9px' }}
+            />
+          ))}
+        </svg>
       </div>
     </>
   );
