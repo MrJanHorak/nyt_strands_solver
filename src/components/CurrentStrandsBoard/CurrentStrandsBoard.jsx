@@ -74,7 +74,7 @@ function CurrentStrandsBoard({
               points={word.coordinates
                 .map(
                   ([y, x]) =>
-                    `${x * 51.5 + 50 / 2 - 1.5 * 55},${y * 55 + 55 / 2}`
+                    `${x * 50 + 53 / 2 - 1.5 * 51},${y * 50 + 70 / 2}`
                 )
                 .join(' ')}
               style={{ fill: 'none', stroke: '#aedfee', strokeWidth: '9px' }}
