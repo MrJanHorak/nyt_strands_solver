@@ -27,3 +27,12 @@
   background-color: #0d8cd8;
   color: white;
 }
+
+.spangram {
+  background-color: #e4f878;
+}
+
+.spangram:hover {
+  background-color: #ccd431;
+  color: white;
+}
