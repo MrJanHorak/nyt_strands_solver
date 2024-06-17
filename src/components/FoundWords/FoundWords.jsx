@@ -1,20 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import './FoundWords.css';
 
-function FoundWords({ FoundWords }) {
-  const [spanGram, setSpanGram] = useState([]);
-  const [spanGramIndex, setSpanGramIndex] = useState(0);
-
-  const handleAddtoSpanGram = (word) => {
-    setSpanGram([...spanGram, word]);
-    setSpanGramIndex(spanGramIndex + 1);
-  };
-
-  const handleRemoveFromSpanGram = (word) => {
-    setSpanGram(spanGram.filter((w) => w !== word));
-    setSpanGramIndex(spanGramIndex - 1);
-  };
-
+function FoundWords({
+  FoundWords,
+  spanGram,
+  handleAddtoSpanGram,
+  handleRemoveFromSpanGram,
+}) {
   const handleOnClick = (word) => {
     if (spanGram.includes(word)) {
       handleRemoveFromSpanGram(word);

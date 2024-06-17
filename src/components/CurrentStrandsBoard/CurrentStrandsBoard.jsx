@@ -9,6 +9,7 @@ function CurrentStrandsBoard({
   setSelectedLetter,
   foundWords,
   setClickCounter,
+  spanGram,
 }) {
   const handleSelect = (e, rowIndex, columnIndex) => {
     e.preventDefault();
@@ -33,12 +34,23 @@ function CurrentStrandsBoard({
                       <div
                         key={`${rowIndex}, ${columnIndex}`}
                         className={`strand ${
-                          currentWord?.coordinates.some(
+                          currentWord?.coordinates?.some(
                             ([x, y]) => x === rowIndex && y === columnIndex
                           )
                             ? 'highlighted'
+                            : foundWords.some((word) => {
+                                const coordinatesMatch = word.coordinates?.some(
+                                  ([x, y]) =>
+                                    x === rowIndex && y === columnIndex
+                                );
+                                return (
+                                  coordinatesMatch &&
+                                  spanGram.includes(word.word)
+                                );
+                              })
+                            ? 'found-and-in-spanGram'
                             : foundWords.some((word) =>
-                                word.coordinates.some(
+                                word.coordinates?.some(
                                   ([x, y]) =>
                                     x === rowIndex && y === columnIndex
                                 )
@@ -73,11 +85,14 @@ function CurrentStrandsBoard({
               key={index}
               points={word.coordinates
                 .map(
-                  ([y, x]) =>
-                    `${x * 50 + 53 / 2 - 1.5 * 51},${y * 50 + 70 / 2}`
+                  ([y, x]) => `${x * 50 + 53 / 2 -0 * 51},${y * 50 + 70 / 2}`
                 )
                 .join(' ')}
-              style={{ fill: 'none', stroke: '#aedfee', strokeWidth: '9px' }}
+              style={{
+                fill: 'none',
+                stroke: spanGram.includes(word.word) ? '#f8cb2c' : '#aedfee',
+                strokeWidth: '9px',
+              }}
             />
           ))}
         </svg>

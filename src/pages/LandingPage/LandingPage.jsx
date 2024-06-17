@@ -24,6 +24,7 @@ function LandingPage() {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [foundWords, setFoundWords] = useState([]);
   const [clickCounter, setClickCounter] = useState(0);
+  const [spanGram, setSpanGram] = useState([]);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
@@ -38,6 +39,14 @@ function LandingPage() {
       setPossibleWords(possibleWords);
     }
   }, [currentStrandsBoard, currentWord]);
+
+  const handleAddtoSpanGram = (word) => {
+    setSpanGram([...spanGram, word]);
+  };
+
+  const handleRemoveFromSpanGram = (word) => {
+    setSpanGram(spanGram.filter((w) => w !== word));
+  };
 
   const foundAWord = (word) => {
     const foundWordsCopy = [...foundWords];
@@ -65,6 +74,7 @@ function LandingPage() {
           setSelectedLetter={setSelectedLetter}
           foundWords={foundWords}
           setClickCounter={setClickCounter}
+          spanGram={spanGram}
         />
         <PossibleWords
           possibleWords={possibleWords}
@@ -78,7 +88,12 @@ function LandingPage() {
           setClickCounter={setClickCounter}
         />
       </div>
-      <FoundWords FoundWords={foundWords} />
+      <FoundWords
+        FoundWords={foundWords}
+        spanGram={spanGram}
+        handleAddtoSpanGram={handleAddtoSpanGram}
+        handleRemoveFromSpanGram={handleRemoveFromSpanGram}
+      />
     </div>
   );
 }

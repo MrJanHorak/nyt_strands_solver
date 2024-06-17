@@ -4,9 +4,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  margin-right: 40px;
   height: 422px;
-  /* background-color: white; */
 }
 
 .current-strand {
@@ -52,5 +51,11 @@
 .found {
   background-color: #aedfee;
   outline: 0px solid #aedfee;
+  border-radius: 50%;
+}
+
+.found-and-in-spanGram {
+  background-color: #f8cb2c;
+  outline: 0px solid #f8cb2c;
   border-radius: 50%;
 }
