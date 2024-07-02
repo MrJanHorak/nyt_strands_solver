@@ -11,7 +11,8 @@ function PossibleWords({
   foundAWord,
   foundWords,
   setClickCounter,
-  clickCounter
+  clickCounter,
+  spanGram,
 }) {
  
 
@@ -79,7 +80,8 @@ function PossibleWords({
     className={`
       possible-word 
       ${currentWord && currentWord.word === word.word ? 'current-word' : ''}
-      ${foundWords.some((foundWord) => foundWord.word === word.word) ? 'in-list' : ''}
+      ${spanGram.includes(word.word) ? 'span-gram-word' : 
+      foundWords.some((foundWord) => foundWord.word === word.word) ? 'in-list' : ''}
     `}
     key={word.word + index}
     onClick={() => handleClick(word)}

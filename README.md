@@ -11,7 +11,8 @@ When a user clicks on any letter of the grid of letters a list of possible words
 
 When a word is found and doble clicked upon all the letters that contain that word will be removed from the word search so, turn by turn less words will be appearing as available letters of the grid are being eliminated. 
 
-
+## Challenges along the way
+WHen I started this I began exploring various 'jigsaw' puzzle solving algorithems. It took me a long a journey that was eeducational for me, however not beneficial for the smoothly, or rather swiftly working of this app. In essence I have a word list that would find all possible words over 4 letters long and then run through the 'puzzle'. It is as if you have a thousand pieces that all could fit in an 8 piece puzzle. The algorithms would have to essentially idelly have to try every single combination. That is very time intensive. I explored various algos that would include random mutations to see if it could more quickly stumble upon an 'optimal' solution. I may return to using algos to try to solve the strands. The other challenge however is that the span-gram is often a compound word where the first word could be shorter than 4 characters, which would mean I would have to add a new layer of complexity into the solution process. As of now. I stopped running down that rabbit trail and have settled for a user centric approach.  
 
 
 ## Technologies Used:

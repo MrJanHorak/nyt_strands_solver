@@ -55,6 +55,7 @@ function LandingPage() {
     );
     if (wordIndex !== -1) {
       foundWordsCopy.splice(wordIndex, 1);
+      
     } else {
       foundWordsCopy.push(word);
     }
@@ -86,6 +87,7 @@ function LandingPage() {
           foundWords={foundWords}
           clickCounter={clickCounter}
           setClickCounter={setClickCounter}
+          spanGram = {spanGram}
         />
       </div>
       <FoundWords
