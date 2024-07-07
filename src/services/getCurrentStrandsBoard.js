@@ -5,7 +5,7 @@ const getStrandsBoardAndClue = async () => {
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   
   // Append the timezone as a query parameter to the API URL
-  const urlWithTimezone = `${API_URL}/data?timezone=${encodeURIComponent(clientTimezone)}`;
+  const urlWithTimezone = `${API_URL}?timezone=${encodeURIComponent(clientTimezone)}`;
 
   const response = await fetch(urlWithTimezone);
   console.log(response);
