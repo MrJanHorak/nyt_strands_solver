@@ -1,5 +1,5 @@
 //styles
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import './PossibleWords.css';
 
 function PossibleWords({
@@ -14,10 +14,7 @@ function PossibleWords({
   clickCounter,
   spanGram,
 }) {
- 
-
   const handleClick = (word) => {
-
     if (foundWords.some((foundWord) => foundWord.word === word.word)) {
       foundAWord(word);
       setClickCounter(0);
@@ -49,23 +46,23 @@ function PossibleWords({
     }
   };
   // only show words that contain the current index
-  possibleWords = possibleWords.filter(
-    (word) =>
-      (boardIndex === undefined ||
-        word.coordinates.some(
-          ([x, y]) => x === boardIndex[0] && y === boardIndex[1]
-        )) &&
-      (foundWords.some((foundWord) => foundWord.word === word.word) ||
-        !foundWords.some((foundWord) =>
-          foundWord.coordinates.some(([x, y]) =>
-            word.coordinates.some(([x2, y2]) => x === x2 && y === y2)
-          )
-        ))
-  );
+  if (selectedLetter && boardIndex) {
+    possibleWords = possibleWords.filter(
+      (word) =>
+        (boardIndex === undefined ||
+          word.coordinates.some(
+            ([x, y]) => x === boardIndex[0] && y === boardIndex[1]
+          )) &&
+        (foundWords.some((foundWord) => foundWord.word === word.word) ||
+          !foundWords.some((foundWord) =>
+            foundWord.coordinates.some(([x, y]) =>
+              word.coordinates.some(([x2, y2]) => x === x2 && y === y2)
+            )
+          ))
+    );
+  }
 
-  useEffect(() => {
-  
-  }, [currentWord]);
+  useEffect(() => {}, [currentWord]);
 
   return (
     <div className='possible-words'>
@@ -74,21 +71,30 @@ function PossibleWords({
           {possibleWords.length} words contain the letter: {selectedLetter}
         </div>
       )}
+
+      {!selectedLetter && (
+        <div className='total'>{possibleWords.length} words in total</div>
+      )}
       <div className='words-container'>
-{possibleWords.map((word, index) => (
-  <div
-    className={`
+        {possibleWords.map((word, index) => (
+          <div
+            className={`
       possible-word 
       ${currentWord && currentWord.word === word.word ? 'current-word' : ''}
-      ${spanGram.includes(word.word) ? 'span-gram-word' : 
-      foundWords.some((foundWord) => foundWord.word === word.word) ? 'in-list' : ''}
+      ${
+        spanGram.includes(word.word)
+          ? 'span-gram-word'
+          : foundWords.some((foundWord) => foundWord.word === word.word)
+          ? 'in-list'
+          : ''
+      }
     `}
-    key={word.word + index}
-    onClick={() => handleClick(word)}
-  >
-    {word.word.toUpperCase()}
-  </div>
-))}
+            key={word.word + index}
+            onClick={() => handleClick(word)}
+          >
+            {word.word.toUpperCase()}
+          </div>
+        ))}
       </div>
     </div>
   );

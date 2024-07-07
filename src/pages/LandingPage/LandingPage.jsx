@@ -25,11 +25,13 @@ function LandingPage() {
   const [foundWords, setFoundWords] = useState([]);
   const [clickCounter, setClickCounter] = useState(0);
   const [spanGram, setSpanGram] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
       setCurrentStrandsBoard(data.buttonValues);
       setClue(data.clue);
+      setLoading(false);
     });
   }, []);
 
@@ -55,7 +57,6 @@ function LandingPage() {
     );
     if (wordIndex !== -1) {
       foundWordsCopy.splice(wordIndex, 1);
-      
     } else {
       foundWordsCopy.push(word);
     }
@@ -65,37 +66,42 @@ function LandingPage() {
   return (
     <div className='solver-container'>
       <Header />
-      <TodaysTheme clue={clue} />
-      <div className='board-words-container'>
-        <CurrentStrandsBoard
-          currentStrands={currentStrandsBoard}
-          setBoardIndex={setBoardIndex}
-          currentWord={currentWord}
-          setCurrentWord={setCurrentWord}
-          setSelectedLetter={setSelectedLetter}
-          foundWords={foundWords}
-          setClickCounter={setClickCounter}
-          spanGram={spanGram}
-        />
-        <PossibleWords
-          possibleWords={possibleWords}
-          setCurrentWord={setCurrentWord}
-          boardIndex={boardIndex}
-          currentWord={currentWord}
-          selectedLetter={selectedLetter}
-          foundAWord={foundAWord}
-          foundWords={foundWords}
-          clickCounter={clickCounter}
-          setClickCounter={setClickCounter}
-          spanGram = {spanGram}
-        />
-      </div>
-      <FoundWords
-        FoundWords={foundWords}
-        spanGram={spanGram}
-        handleAddtoSpanGram={handleAddtoSpanGram}
-        handleRemoveFromSpanGram={handleRemoveFromSpanGram}
-      />
+      {loading && <div className='loading-container'>Loading...</div>}
+      {!loading && (
+        <>
+          <TodaysTheme clue={clue} />
+          <div className='board-words-container'>
+            <CurrentStrandsBoard
+              currentStrands={currentStrandsBoard}
+              setBoardIndex={setBoardIndex}
+              currentWord={currentWord}
+              setCurrentWord={setCurrentWord}
+              setSelectedLetter={setSelectedLetter}
+              foundWords={foundWords}
+              setClickCounter={setClickCounter}
+              spanGram={spanGram}
+            />
+            <PossibleWords
+              possibleWords={possibleWords}
+              setCurrentWord={setCurrentWord}
+              boardIndex={boardIndex}
+              currentWord={currentWord}
+              selectedLetter={selectedLetter}
+              foundAWord={foundAWord}
+              foundWords={foundWords}
+              clickCounter={clickCounter}
+              setClickCounter={setClickCounter}
+              spanGram={spanGram}
+            />
+          </div>
+          <FoundWords
+            FoundWords={foundWords}
+            spanGram={spanGram}
+            handleAddtoSpanGram={handleAddtoSpanGram}
+            handleRemoveFromSpanGram={handleRemoveFromSpanGram}
+          />
+        </>
+      )}
     </div>
   );
 }
