@@ -91,7 +91,7 @@ function CurrentStrandsBoard({
               style={{
                 fill: 'none',
                 stroke: spanGram.includes(word.word) ? '#f8cb2c' : '#aedfee',
-                strokeWidth: '9px',
+                strokeWidth: '12px',
               }}
             />
           ))}
