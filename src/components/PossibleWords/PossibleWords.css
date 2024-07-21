@@ -18,6 +18,12 @@
   width: 365px;
   height: 360px;
   overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(124, 186, 234) rgb(255, 255, 255);
+}
+
+.words-container::-webkit-scrollbar-thumb {
+  border-radius: 50%;
 }
 
 .possible-word {
