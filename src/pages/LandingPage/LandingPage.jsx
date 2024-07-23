@@ -70,7 +70,7 @@ function LandingPage() {
       {!loading && (
         <>
           <TodaysTheme clue={clue} />
-          <div className='board-words-container'>
+          {/* <div className='board-words-container'> */}
             <CurrentStrandsBoard
               currentStrands={currentStrandsBoard}
               setBoardIndex={setBoardIndex}
@@ -81,24 +81,24 @@ function LandingPage() {
               setClickCounter={setClickCounter}
               spanGram={spanGram}
             />
-            <PossibleWords
-              possibleWords={possibleWords}
-              setCurrentWord={setCurrentWord}
-              boardIndex={boardIndex}
-              currentWord={currentWord}
-              selectedLetter={selectedLetter}
-              foundAWord={foundAWord}
-              foundWords={foundWords}
-              clickCounter={clickCounter}
-              setClickCounter={setClickCounter}
-              spanGram={spanGram}
-            />
-          </div>
+          {/* </div> */}
           <FoundWords
             FoundWords={foundWords}
             spanGram={spanGram}
             handleAddtoSpanGram={handleAddtoSpanGram}
             handleRemoveFromSpanGram={handleRemoveFromSpanGram}
+          />
+          <PossibleWords
+            possibleWords={possibleWords}
+            setCurrentWord={setCurrentWord}
+            boardIndex={boardIndex}
+            currentWord={currentWord}
+            selectedLetter={selectedLetter}
+            foundAWord={foundAWord}
+            foundWords={foundWords}
+            clickCounter={clickCounter}
+            setClickCounter={setClickCounter}
+            spanGram={spanGram}
           />
         </>
       )}
