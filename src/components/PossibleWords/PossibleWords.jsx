@@ -88,6 +88,7 @@ function PossibleWords({
           ? 'in-list'
           : ''
       }
+       ${word.word.length > 10 ? 'small-word' : ''}
     `}
             key={word.word + index}
             onClick={() => handleClick(word)}
