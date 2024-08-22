@@ -26,10 +26,14 @@ function LandingPage() {
   const [clickCounter, setClickCounter] = useState(0);
   const [spanGram, setSpanGram] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [themeWords, setThemeWords] = useState([]);
+  const [spanGramWords, setSpanGramWords] = useState([]);
 
   useEffect(() => {
     getStrandsBoardAndClue().then((data) => {
       setCurrentStrandsBoard(data.buttonValues);
+      setThemeWords(data.themeWords);
+      setSpanGramWords(data.spangram);
       setClue(data.clue);
       setLoading(false);
     });
@@ -37,7 +41,7 @@ function LandingPage() {
 
   useEffect(() => {
     if (currentStrandsBoard.length > 0) {
-      const possibleWords = findWordsInBoard(currentStrandsBoard);
+      const possibleWords = findWordsInBoard(currentStrandsBoard, themeWords, spanGramWords);
       setPossibleWords(possibleWords);
     }
   }, [currentStrandsBoard, currentWord]);

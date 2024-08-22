@@ -10,6 +10,7 @@ const getStrandsBoardAndClue = async () => {
   const response = await fetch(urlWithTimezone);
   console.log(response);
   const data = await response.json();
+  console.log(data);
   return data;
 }
 

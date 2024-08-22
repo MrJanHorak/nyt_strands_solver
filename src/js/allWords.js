@@ -21,6 +21,17 @@ function removeShortWords(dictionary) {
 // Usage
 const updatedDictionary = removeShortWords(dictionary);
 
+function addWordsToUpdatedDictionary( words, spanngram) {
+  
+  words.push(spanngram);
+
+  for (const word of words) {
+    if(!updatedDictionary[word]) {
+      updatedDictionary[word] = 1;
+    }
+  }
+}
+
 const trie = new Trie();
 for (let word of Object.keys(updatedDictionary)) {
   trie.insert(word);
@@ -116,6 +127,8 @@ export function findWordsInBoard(board) {
   const rows = board.length;
   const cols = board[0].length;
   const foundWords = new Map();
+  
+  addWordsToUpdatedDictionary(spanGramWords, spanGram);
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
