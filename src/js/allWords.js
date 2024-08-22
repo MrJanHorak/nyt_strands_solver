@@ -24,6 +24,9 @@ const updatedDictionary = removeShortWords(dictionary);
 function addWordsToUpdatedDictionary( words, spanngram) {
   
   words.push(spanngram);
+console.log('words', words);
+
+words = words.map(word => word.toLowerCase());
 
   for (const word of words) {
     if(!updatedDictionary[word]) {
@@ -123,12 +126,12 @@ function findAllWords(
   }));
 }
 
-export function findWordsInBoard(board) {
+export function findWordsInBoard(board, themeWords, spanGram) {
   const rows = board.length;
   const cols = board[0].length;
   const foundWords = new Map();
   
-  addWordsToUpdatedDictionary(spanGramWords, spanGram);
+  addWordsToUpdatedDictionary(themeWords, spanGram);
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
