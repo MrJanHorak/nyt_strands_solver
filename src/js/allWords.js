@@ -3,7 +3,6 @@ import Trie from './trieDictionary.js';
 // import CoordinateTrie from './trieCoordinates.js';
 // Example usage
 
-
 function removeShortWords(dictionary) {
   for (const word in dictionary) {
     if (word.length <= 3) {
@@ -21,19 +20,25 @@ function removeShortWords(dictionary) {
 // Usage
 const updatedDictionary = removeShortWords(dictionary);
 
+
 function addWordsToUpdatedDictionary( words, spanngram) {
   
-  words.push(spanngram);
-console.log('words', words);
-
-words = words.map(word => word.toLowerCase());
+  
+  if (!words.includes(spanngram)) {
+    words.push(spanngram);
+  }
+  
+  words = words.map(word => word.toLowerCase());
+  console.log('words', words);
 
   for (const word of words) {
     if(!updatedDictionary[word]) {
       updatedDictionary[word] = 1;
     }
   }
+
 }
+
 
 const trie = new Trie();
 for (let word of Object.keys(updatedDictionary)) {
