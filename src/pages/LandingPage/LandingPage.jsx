@@ -30,13 +30,20 @@ function LandingPage() {
   const [spanGramWords, setSpanGramWords] = useState([]);
 
   useEffect(() => {
-    getStrandsBoardAndClue().then((data) => {
-      setCurrentStrandsBoard(data.buttonValues);
-      setThemeWords(data.themeWords);
-      setSpanGramWords(data.spangram);
-      setClue(data.clue);
-      setLoading(false);
-    });
+    const fetchData = async () => {
+      try {
+        const data = await getStrandsBoardAndClue();
+        setCurrentStrandsBoard(data.buttonValues);
+        setThemeWords(data.themeWords);
+        setSpanGramWords(data.spangram);
+        setClue(data.clue);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -52,7 +59,7 @@ function LandingPage() {
     };
 
     fetchPossibleWords();
-  }, [currentStrandsBoard, spanGramWords, themeWords]);
+  }, [currentStrandsBoard, themeWords, spanGramWords]);
 
   const handleAddtoSpanGram = (word) => {
     setSpanGram([...spanGram, word]);
