@@ -66,6 +66,7 @@ function PossibleWords({
 
   return (
     <div className='possible-words'>
+      possible words
       {selectedLetter && (
         <div className='total'>
           {possibleWords.length} words contain the letter: {selectedLetter}

@@ -30,6 +30,7 @@ function LandingPage() {
   const [spanGramWords, setSpanGramWords] = useState([]);
 
   useEffect(() => {
+    console.log('fetching data');
     const fetchData = async () => {
       try {
         const data = await getStrandsBoardAndClue();
@@ -47,6 +48,7 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
+    console.log('fetching possible words');
     const fetchPossibleWords = async () => {
       if (currentStrandsBoard.length > 0 && spanGramWords.length > 0) {
         const possibleWords = await findWordsInBoard(
@@ -84,6 +86,7 @@ function LandingPage() {
 
   return (
     <div className='solver-container'>
+      landing page
       <Header />
       {loading && <div className='loading-container'>Loading...</div>}
       {!loading && (

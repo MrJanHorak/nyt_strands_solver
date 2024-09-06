@@ -19,6 +19,7 @@ function FoundWords({
 
   return (
     <div className='found-words'>
+      found words
       <h4>Found Words {FoundWords.length}</h4>
       <div className='found-word-list'>
         {FoundWords.map((word, index) => {
