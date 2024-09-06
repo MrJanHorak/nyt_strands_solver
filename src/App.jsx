@@ -1,16 +1,14 @@
-
-import './App.css'
+import './App.css';
 
 //Components
-import LandingPage from './pages/LandingPage/LandingPage'
+import LandingPage from './pages/LandingPage/LandingPage';
 
 function App() {
-
   return (
     <>
       <LandingPage />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,6 @@
 import './TodaysTheme.css';
 
-function TodaysTheme({clue}) {
+function TodaysTheme({ clue }) {
   return (
     <div className='theme-container'>
       <div className='theme-container-header'>TODAY&apos;S THEME</div>

@@ -45,7 +45,7 @@ function PossibleWords({
         break;
     }
   };
-  // only show words that contain the current index
+
   if (selectedLetter && boardIndex) {
     possibleWords = possibleWords.filter(
       (word) =>

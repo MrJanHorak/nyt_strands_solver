@@ -40,11 +40,19 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    if (currentStrandsBoard.length > 0) {
-      const possibleWords = findWordsInBoard(currentStrandsBoard, themeWords, spanGramWords);
-      setPossibleWords(possibleWords);
-    }
-  }, [currentStrandsBoard, currentWord]);
+    const fetchPossibleWords = async () => {
+      if (currentStrandsBoard.length > 0 && spanGramWords.length > 0) {
+        const possibleWords = await findWordsInBoard(
+          currentStrandsBoard,
+          themeWords,
+          spanGramWords
+        );
+        setPossibleWords(possibleWords);
+      }
+    };
+
+    fetchPossibleWords();
+  }, [currentStrandsBoard, spanGramWords, themeWords]);
 
   const handleAddtoSpanGram = (word) => {
     setSpanGram([...spanGram, word]);
@@ -75,16 +83,16 @@ function LandingPage() {
         <>
           <TodaysTheme clue={clue} />
           {/* <div className='board-words-container'> */}
-            <CurrentStrandsBoard
-              currentStrands={currentStrandsBoard}
-              setBoardIndex={setBoardIndex}
-              currentWord={currentWord}
-              setCurrentWord={setCurrentWord}
-              setSelectedLetter={setSelectedLetter}
-              foundWords={foundWords}
-              setClickCounter={setClickCounter}
-              spanGram={spanGram}
-            />
+          <CurrentStrandsBoard
+            currentStrands={currentStrandsBoard}
+            setBoardIndex={setBoardIndex}
+            currentWord={currentWord}
+            setCurrentWord={setCurrentWord}
+            setSelectedLetter={setSelectedLetter}
+            foundWords={foundWords}
+            setClickCounter={setClickCounter}
+            spanGram={spanGram}
+          />
           {/* </div> */}
           <FoundWords
             FoundWords={foundWords}
