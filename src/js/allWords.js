@@ -1,7 +1,18 @@
-import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
+// import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
+let updatedDictionary = {}
 
-function removeShortWords(dictionary) {
+// export const loadDictionary = async () => {
+//   const dictionary = await import(
+//     '../data/words_dictionary_300000_words.json',
+//     {
+//       assert: { type: 'json' },
+//     }
+//   );
+//   return dictionary.default;
+// };
+
+async function removeShortWords(dictionary) {
   for (const word in dictionary) {
     if (word.length <= 3) {
       delete dictionary[word];
@@ -11,10 +22,14 @@ function removeShortWords(dictionary) {
   return dictionary;
 }
 
-const updatedDictionary = removeShortWords(dictionary);
+
 
 function addWordsToUpdatedDictionary(words, spangram) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (!words || !Array.isArray(words)) {
+      return reject(new Error('Words array is not available or invalid.'));
+    }
+
     if (!spangram || !spangram.length) {
       console.warn('SpanGram is not available yet.');
       return;
@@ -128,12 +143,18 @@ function findAllWords(
   }));
 }
 
-export async function findWordsInBoard(board, themeWords, spanGram) {
+export async function findWordsInBoard(board, themeWords, spanGram, dictionary) {
   const rows = board.length;
   const cols = board[0].length;
   const foundWords = new Map();
 
-  await addWordsToUpdatedDictionary(themeWords, spanGram);
+  updatedDictionary = await removeShortWords(dictionary)
+
+  try {
+    await addWordsToUpdatedDictionary(themeWords, spanGram);
+  } catch (error) {
+    console.error('Error adding words to updated dictionary:', error);
+  }
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {

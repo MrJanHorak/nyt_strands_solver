@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import App from './App';
 import './index.css';
+import { DictionaryProvider } from './context/dictionaryContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <>
-    Main.jsx
   <React.StrictMode>
-    <App />
+    <DictionaryProvider>
+      <App />
+    </DictionaryProvider>
   </React.StrictMode>
-</>
 );

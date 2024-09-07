@@ -23,7 +23,6 @@ function CurrentStrandsBoard({
 
   return (
     <>
-    current board
       <div style={{ position: 'relative' }}>
         <div className='current-strands-board'>
           <div className='current-strands'>

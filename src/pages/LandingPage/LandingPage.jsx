@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense, useContext } from 'react';
 //Components
-import Header from '../../components/Header/Header';
-import TodaysTheme from '../../components/TodaysTheme/TodaysTheme';
-import CurrentStrandsBoard from '../../components/CurrentStrandsBoard/CurrentStrandsBoard';
-import PossibleWords from '../../components/PossibleWords/PossibleWords';
-import FoundWords from '../../components/FoundWords/FoundWords';
+const Header = lazy(() => import('../../components/Header/Header'));
+const TodaysTheme = lazy(() =>
+  import('../../components/TodaysTheme/TodaysTheme')
+);
+const CurrentStrandsBoard = lazy(() =>
+  import('../../components/CurrentStrandsBoard/CurrentStrandsBoard')
+);
+const PossibleWords = lazy(() =>
+  import('../../components/PossibleWords/PossibleWords')
+);
+const FoundWords = lazy(() => import('../../components/FoundWords/FoundWords'));
 
 //styles
 import './LandingPage.css';
@@ -15,7 +21,11 @@ import getStrandsBoardAndClue from '../../services/getCurrentStrandsBoard';
 //helper functions
 import { findWordsInBoard } from '../../js/allWords';
 
+//Context
+import { DictionaryContext } from '../../context/dictionaryContext';
+
 function LandingPage() {
+  const { dictionary, dictLoading } = useContext(DictionaryContext);
   const [currentStrandsBoard, setCurrentStrandsBoard] = useState([]);
   const [clue, setClue] = useState('');
   const [possibleWords, setPossibleWords] = useState([]);
@@ -28,6 +38,7 @@ function LandingPage() {
   const [loading, setLoading] = useState(true);
   const [themeWords, setThemeWords] = useState([]);
   const [spanGramWords, setSpanGramWords] = useState([]);
+  const [wordsLoading, setWordsLoading] = useState(true); 
 
   useEffect(() => {
     console.log('fetching data');
@@ -48,20 +59,22 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    console.log('fetching possible words');
     const fetchPossibleWords = async () => {
       if (currentStrandsBoard.length > 0 && spanGramWords.length > 0) {
+        console.log('spanngram words', spanGramWords);
         const possibleWords = await findWordsInBoard(
           currentStrandsBoard,
           themeWords,
-          spanGramWords
+          spanGramWords,
+          dictionary
         );
         setPossibleWords(possibleWords);
+        setWordsLoading(false);
       }
     };
 
     fetchPossibleWords();
-  }, [currentStrandsBoard, themeWords, spanGramWords]);
+  }, [currentStrandsBoard, themeWords, spanGramWords, dictionary]);
 
   const handleAddtoSpanGram = (word) => {
     setSpanGram([...spanGram, word]);
@@ -86,44 +99,49 @@ function LandingPage() {
 
   return (
     <div className='solver-container'>
-      landing page
-      <Header />
-      {loading && <div className='loading-container'>Loading...</div>}
-      {!loading && (
-        <>
-          <TodaysTheme clue={clue} />
-          {/* <div className='board-words-container'> */}
-          <CurrentStrandsBoard
-            currentStrands={currentStrandsBoard}
-            setBoardIndex={setBoardIndex}
-            currentWord={currentWord}
-            setCurrentWord={setCurrentWord}
-            setSelectedLetter={setSelectedLetter}
-            foundWords={foundWords}
-            setClickCounter={setClickCounter}
-            spanGram={spanGram}
-          />
-          {/* </div> */}
-          <FoundWords
-            FoundWords={foundWords}
-            spanGram={spanGram}
-            handleAddtoSpanGram={handleAddtoSpanGram}
-            handleRemoveFromSpanGram={handleRemoveFromSpanGram}
-          />
-          <PossibleWords
-            possibleWords={possibleWords}
-            setCurrentWord={setCurrentWord}
-            boardIndex={boardIndex}
-            currentWord={currentWord}
-            selectedLetter={selectedLetter}
-            foundAWord={foundAWord}
-            foundWords={foundWords}
-            clickCounter={clickCounter}
-            setClickCounter={setClickCounter}
-            spanGram={spanGram}
-          />
-        </>
-      )}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+        {loading && <div className='loading-container'>Loading...</div>}
+        {!loading && (
+          <>
+            <TodaysTheme clue={clue} />
+            {/* <div className='board-words-container'> */}
+            <CurrentStrandsBoard
+              currentStrands={currentStrandsBoard}
+              setBoardIndex={setBoardIndex}
+              currentWord={currentWord}
+              setCurrentWord={setCurrentWord}
+              setSelectedLetter={setSelectedLetter}
+              foundWords={foundWords}
+              setClickCounter={setClickCounter}
+              spanGram={spanGram}
+            />
+            {/* </div> */}
+            <FoundWords
+              FoundWords={foundWords}
+              spanGram={spanGram}
+              handleAddtoSpanGram={handleAddtoSpanGram}
+              handleRemoveFromSpanGram={handleRemoveFromSpanGram}
+            />
+            {dictLoading || wordsLoading ? (
+              <div className='loading-container'>Finding possible words!</div>
+            ) : (
+              <PossibleWords
+                possibleWords={possibleWords}
+                setCurrentWord={setCurrentWord}
+                boardIndex={boardIndex}
+                currentWord={currentWord}
+                selectedLetter={selectedLetter}
+                foundAWord={foundAWord}
+                foundWords={foundWords}
+                clickCounter={clickCounter}
+                setClickCounter={setClickCounter}
+                spanGram={spanGram}
+              />
+            )}
+          </>
+        )}
+      </Suspense>
     </div>
   );
 }
