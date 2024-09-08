@@ -38,7 +38,7 @@ function LandingPage() {
   const [loading, setLoading] = useState(true);
   const [themeWords, setThemeWords] = useState([]);
   const [spanGramWords, setSpanGramWords] = useState([]);
-  const [wordsLoading, setWordsLoading] = useState(true); 
+  const [wordsLoading, setWordsLoading] = useState(true);
 
   useEffect(() => {
     console.log('fetching data');

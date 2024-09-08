@@ -117,7 +117,7 @@ const Nav = () => {
             target="_blank"
             aria-label="link to Strands Soltion helper"
           >
-            <span>Letter Boxed Solver</span>
+            <span>Strands Helper</span>
           </a>
         </nav>
       </div>

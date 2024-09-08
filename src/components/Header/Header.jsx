@@ -1,8 +1,10 @@
+import './Header.css';
+
 function Header() {
   return (
-    <div>
-      <h1>Strands Helper (BETA)</h1>
-    </div>
+    <di className="header">
+      <h3>Strands Helper</h3>
+    </di>
   );
 }
 

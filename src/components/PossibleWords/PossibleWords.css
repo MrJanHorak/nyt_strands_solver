@@ -20,10 +20,36 @@
   width: 365px;
   height: 360px;
   overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: rgb(124, 186, 234) var(--scrollbar);
+  /* scrollbar-width:thin; */
+  /* scrollbar-color: rgb(124, 186, 234) var(--scrollbar); */
   margin-bottom: 33px;
 }
+.words-container::-webkit-scrollbar {
+  display: block;
+  width: 5px;
+}
+.words-container::-webkit-scrollbar-track {
+  /* background: transparent; */
+  /* scrollbar-color: rgb(124, 186, 234) var(--scrollbar); */
+}
+
+.words-container::-webkit-scrollbar-thumb {
+  background-color: rgb(153, 151, 151);
+  border-right: none;
+  border-left: none;
+}
+
+.words-container::-webkit-scrollbar-track-piece:end {
+  background: var(--scrollbar);
+  margin-bottom: 14px;
+}
+
+.words-container::-webkit-scrollbar-track-piece:start {
+  background: var(--scrollbar);
+  margin-top: 14px;
+}
+
+
 
 .words-container::-webkit-scrollbar-thumb {
   border-radius: 50%;
