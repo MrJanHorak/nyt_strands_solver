@@ -30,7 +30,7 @@
   width: 44px;
   height: 44px;
   /* background-color: #fff; */
-  color: black;
+  color: var(--font-color);
   font-size: 26px;
   font-weight: 400;
   margin: 3px;
@@ -50,8 +50,8 @@
 }
 
 .found {
-  background-color: #aedfee;
-  outline: 0px solid #aedfee;
+  background-color: var(--blue);
+  outline: 0px solid var(--blue);
   border-radius: 50%;
 }
 

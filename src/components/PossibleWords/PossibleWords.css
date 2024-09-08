@@ -21,7 +21,8 @@
   height: 360px;
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: rgb(124, 186, 234) rgb(255, 255, 255);
+  scrollbar-color: rgb(124, 186, 234) var(--scrollbar);
+  margin-bottom: 33px;
 }
 
 .words-container::-webkit-scrollbar-thumb {
@@ -35,7 +36,7 @@
   align-items: center;
   width: 100px;
   height: 25px;
-  color: black;
+  color:var(--font-color);
   font-size: 18px;
   font-weight: 400;
   margin: 2px 3px 2px 3px;

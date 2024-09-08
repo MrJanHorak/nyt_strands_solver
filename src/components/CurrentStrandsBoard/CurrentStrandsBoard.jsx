@@ -88,7 +88,7 @@ function CurrentStrandsBoard({
                 .join(' ')}
               style={{
                 fill: 'none',
-                stroke: spanGram.includes(word.word) ? '#f8cb2c' : '#aedfee',
+                stroke: spanGram.includes(word.word) ? '#f8cb2c' : 'var(--blue)',
                 strokeWidth: '12px',
               }}
             />

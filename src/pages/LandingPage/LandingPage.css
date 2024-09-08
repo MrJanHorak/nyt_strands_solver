@@ -6,6 +6,7 @@
   align-items: center;
   text-align: center;
   user-select: none;
+  color: var(--font-color)
 }
 
 .board-words-container {

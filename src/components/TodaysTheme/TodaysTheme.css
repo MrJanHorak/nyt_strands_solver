@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color:var(--background-color);
+  color: ver(--font-color);
   border: solid 1.5px #e0e0e0;
   border-radius: 8px;
   width: 315px;
@@ -14,8 +15,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  color: black;
-  background-color: #aedfee;
+  color: var(--font-color);
+  background-color: var(--blue);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-size: 12px;
@@ -26,7 +27,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  color: black;
+  color: var(--font-color);
   font-size: auto;
   font-weight: 700;
   margin-top: 0.2em;

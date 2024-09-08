@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 8px;
+  color: var(--font-color);
 }
 
 .found-words h4 {
@@ -22,8 +23,6 @@
 
 .found-word {
   margin: 5px;
-  /* padding: 5px; */
-  /* border: 1.5px solid #d8d8c5; */
   border-radius: 8px;
   justify-content: center;
   align-items: center;
@@ -37,7 +36,7 @@
 }
 
 .in-list {
-  background-color: #aedfee;
+  background-color: var(--blue);
 }
 
 .in-list:hover {

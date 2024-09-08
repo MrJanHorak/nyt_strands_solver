@@ -5,3 +5,259 @@
   height: 100vh;
   width: 100vw;
 }
+
+html {
+  background-color: var(--background-color);
+  color: var(--font-color);
+  overflow-x: hidden; 
+}
+[data-theme="dark"] {
+  --font-color: rgb(255, 255, 255);
+  --background-color: #020202;
+  --slider-color: rgb(199, 199, 199);
+  --focus-color: rgb(135, 133, 133);
+  --box-background: #c5c4c4;
+  --button-background: rgb(135, 133, 133);
+  --spangram: #f8cb2c;
+  --currentWord: #5985a6;
+  --scrollbar: rgb(79, 79, 79);
+  --blue: #86c3d6;
+}
+
+[data-theme="light"] {
+  --font-color: rgb(0, 0, 0);
+  --background-color: #ffffff;
+  --slider-color: rgb(199, 199, 199);
+  --focus-color: rgb(135, 133, 133);
+  --box-background: #c5c4c4;
+  --button-background: rgb(135, 133, 133);
+  --spangram: #f8cb2c;
+  --currentWord: #5985a6;
+  --scrollbar: rgb(233, 233, 233);
+  --blue: #aedfee;
+}
+
+/*toggle element*/
+
+.toggle-theme-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  position: fixed;
+  justify-content: center;
+  width: 98%;
+  bottom: 0;
+  background-color: var(--background-color);
+  opacity: 0.8;
+  z-index: 60;
+}
+
+.toggle-theme-wrapper span {
+  font-size: 15px;
+}
+
+.toggle-theme {
+  position: relative;
+  display: inline-block;
+  height: 36px;
+  width: 28px;
+  z-index: 60;
+}
+
+.toggle-theme input {
+  display: none;
+}
+
+.slider {
+  background-color: var(--font-color);
+  position: relative;
+  cursor: pointer;
+  top: 11px;
+  height: 15px;
+  transition: 0.2s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  background-color: var(--slider-color);
+  bottom: 0px;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 0px;
+  position: absolute;
+  transition: 0.4s;
+}
+
+input:checked + .slider:before {
+  transform: translateX(12px);
+}
+
+input:checked + .slider {
+  background-color: rgb(101, 109, 121);
+}
+
+.slider.round {
+  width: 28px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.footer-info {
+  color: var(--font-color);
+  position: fixed;
+  padding-left: 15px;
+  left: 0;
+}
+
+.footer-info a {
+  padding-left: 6px;
+  font-size: smaller;
+}
+
+a {
+  color: var(--link-color);
+}
+
+::-webkit-scrollbar {
+  display: block;
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(153, 151, 151);
+  border-right: none;
+  border-left: none;
+}
+
+::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 14px;
+}
+
+::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 14px;
+}
+
+#nav-bar {
+  color: var(--font-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+.nav-bar {
+  top: 0;
+  right: 0;
+  position: fixed;
+  width: 100%;
+  max-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5% 1% 0.5% 1%;
+  z-index: 20;
+  background-color: var(--background-color);
+  opacity: 0.9;
+}
+
+.nav-bar a {
+  padding: 0.5% 1% 0.5% 1%;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.nav-bar a:hover {
+  color: rgb(209, 209, 209);
+}
+
+.nav-bar a:focus {
+  color: var(--focus-color);
+}
+
+/* sidebar Nav */
+
+.hamburger-button {
+  margin-top: 4px;
+  left: 0px;
+  color: var(--font-color);
+  transition: 250ms;
+}
+
+.menuNav a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: var(--font-color);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: small;
+  text-align: left;
+}
+
+.navBar {
+  display: none;
+  position: relative;
+  z-index: 20;
+}
+
+.navBar button {
+  position: fixed;
+  top: 8px;
+  z-index: 10;
+  background: transparent;
+  border: none;
+}
+
+.menuNav {
+  display: none;
+  list-style: none;
+  position: fixed;
+  top: -12px;
+  background: rgba(127, 127, 127, 0.88);
+  left: -44px;
+  bottom: 0;
+  height: 215px;
+  width: 0;
+  overflow: hidden;
+  max-width: 220px;
+  z-index: 9;
+  border-radius: 12px;
+  box-shadow: 1.5px 1.5px 3px;
+  transition: width 150ms;
+}
+
+.menuNav.showMenu {
+  width: 100%;
+  transition: width 250ms;
+}
+
+.menuNav li:first-child {
+  margin-top: 2.4rem;
+}
+
+@media screen and (max-width: 1029px) {
+  #nav-bar {
+    display: none;
+  }
+  #hamburger {
+    display: inline;
+  }
+  .menuNav {
+    display: inline;
+  }
+  .navBar {
+    display: inline;
+  }
+  .toggle-theme-wrapper {
+    justify-content: right;
+  }
+}
