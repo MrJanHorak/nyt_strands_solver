@@ -22,6 +22,16 @@ function PossibleWords({
       return;
     }
 
+    if (
+      foundWords.some((foundWord) =>
+        foundWord.coordinates.some(([x, y]) =>
+          word.coordinates.some(([x2, y2]) => x === x2 && y === y2)
+        )
+      )
+    ) {
+      return;
+    }
+
     switch (clickCounter) {
       case 0:
         setClickCounter(1);
@@ -34,6 +44,7 @@ function PossibleWords({
           setCurrentWord(null);
         } else if (currentWord && word.word !== currentWord.word) {
           setCurrentWord(word);
+          setClickCounter(1);
         }
         break;
       case 2:
