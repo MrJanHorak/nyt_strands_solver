@@ -7,6 +7,9 @@ import { FiMenu } from "react-icons/fi";
 import { CgBee } from "react-icons/cg";
 import { BsBoundingBoxCircles, BsGrid3X3 } from "react-icons/bs";
 
+// Import the favicon
+import favicon from "../../assets/strands.png";
+
 const Nav = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -75,7 +78,7 @@ const Nav = () => {
                 onClick={() => closeMenu()}
                 aria-label="link to the new york times strands solver helper"
               >
-                {<BsBoundingBoxCircles />} &nbsp;Strands Solver
+                  <img src={favicon} alt="Strands Favicon" style={{ width: "15px", height: "15px" }} /> &nbsp;Strands Helper
               </a>
             </li>
           </ul>

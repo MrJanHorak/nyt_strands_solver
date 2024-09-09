@@ -225,7 +225,7 @@ a {
   background: rgba(127, 127, 127, 0.88);
   left: -44px;
   bottom: 0;
-  height: 215px;
+  height: 225px;
   width: 0;
   overflow: hidden;
   max-width: 220px;
@@ -233,6 +233,7 @@ a {
   border-radius: 12px;
   box-shadow: 1.5px 1.5px 3px;
   transition: width 150ms;
+
 }
 
 .menuNav.showMenu {
