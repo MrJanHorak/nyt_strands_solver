@@ -10,6 +10,9 @@ function FoundWords({
   const handleOnClick = (word) => {
     if (spanGram.includes(word)) {
       handleRemoveFromSpanGram(word);
+    } else if (spanGram.length > 0) {
+      handleRemoveFromSpanGram(spanGram[0]);
+      handleAddtoSpanGram(word);
     } else {
       handleAddtoSpanGram(word);
     }
@@ -22,20 +25,20 @@ function FoundWords({
       <h4>Found Words {FoundWords.length}</h4>
       <div className='found-word-list'>
         {FoundWords.map((word, index) => {
-          if (!spanGram.includes(word.word)) {
-            return (
-              <div
-                className='found-word'
-                key={index}
-                onClick={() => handleOnClick(word.word)}
-              >
-                {word.word}
-              </div>
-            );
-          }
+          // if (!spanGram.includes(word.word)) {
+          return (
+            <div
+              className='found-word'
+              key={index}
+              onClick={() => handleOnClick(word.word)}
+            >
+              {word.word}
+            </div>
+          );
+          // }
         })}
       </div>
-      {spanGram.length > 0 && (
+      {/* {spanGram.length > 0 && (
         <div className='span-gram'>
           <h4>Span Gram</h4>
           <div className='span-gram-list'>
@@ -52,7 +55,7 @@ function FoundWords({
             })}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

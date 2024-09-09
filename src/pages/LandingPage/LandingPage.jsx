@@ -41,7 +41,6 @@ function LandingPage() {
   const [wordsLoading, setWordsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('fetching data');
     const fetchData = async () => {
       try {
         const data = await getStrandsBoardAndClue();
@@ -61,7 +60,6 @@ function LandingPage() {
   useEffect(() => {
     const fetchPossibleWords = async () => {
       if (currentStrandsBoard.length > 0 && spanGramWords.length > 0) {
-        console.log('spanngram words', spanGramWords);
         const possibleWords = await findWordsInBoard(
           currentStrandsBoard,
           themeWords,
@@ -77,7 +75,7 @@ function LandingPage() {
   }, [currentStrandsBoard, themeWords, spanGramWords, dictionary]);
 
   const handleAddtoSpanGram = (word) => {
-    setSpanGram([...spanGram, word]);
+    setSpanGram([word]);
   };
 
   const handleRemoveFromSpanGram = (word) => {
