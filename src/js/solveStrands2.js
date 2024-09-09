@@ -1,4 +1,4 @@
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary.json';
 // import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
 import Trie from './trieDictionary.js';
 
@@ -33,6 +33,20 @@ for (let word of Object.keys(updatedDictionary)) {
   trie.insert(word);
 }
 
+/**
+ * Depth-First Search (DFS) algorithm to find words in a board that match a given trie.
+ *
+ * @param {number} row - The current row index in the board.
+ * @param {number} col - The current column index in the board.
+ * @param {string} currentWord - The current word being formed.
+ * @param {Set<string>} visited - A set of visited cells in the format "row,col".
+ * @param {Array<Array<string>>} board - The 2D board of characters.
+ * @param {Object} trie - The trie data structure used for word validation.
+ * @param {number} rows - The total number of rows in the board.
+ * @param {number} cols - The total number of columns in the board.
+ * @param {Array<string>} [currentSolution=[]] - The current solution path of words.
+ * @returns {Array<string>} - An array of found words that match the criteria.
+ */
 function dfs(
   row,
   col,

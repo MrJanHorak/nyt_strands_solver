@@ -2,16 +2,6 @@
 import Trie from './trieDictionary.js';
 let updatedDictionary = {}
 
-// export const loadDictionary = async () => {
-//   const dictionary = await import(
-//     '../data/words_dictionary_300000_words.json',
-//     {
-//       assert: { type: 'json' },
-//     }
-//   );
-//   return dictionary.default;
-// };
-
 async function removeShortWords(dictionary) {
   for (const word in dictionary) {
     if (word.length <= 3) {

@@ -1,4 +1,4 @@
-import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary_300000_words.json';
 
 function removeShortWords(dictionary) {
   const updatedDictionary = {};
@@ -24,6 +24,13 @@ function removeShortWords(dictionary) {
 
 const updatedDictionary = removeShortWords(dictionary);
 
+/**
+ * Solves a word search puzzle by finding all valid words from the dictionary in the given board.
+ *
+ * @param {string[][]} board - A 2D array representing the word search board.
+ * @param {Set<string>} dictionary - A set of valid words to search for in the board.
+ * @returns {string[]} - An array of found words from the dictionary that are present in the board.
+ */
 function solveWordSearch(board, dictionary) {
   const rows = board.length;
   const cols = board[0].length;

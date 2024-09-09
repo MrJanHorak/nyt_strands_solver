@@ -103,7 +103,6 @@ function LandingPage() {
         {!loading && (
           <>
             <TodaysTheme clue={clue} />
-            {/* <div className='board-words-container'> */}
             <CurrentStrandsBoard
               currentStrands={currentStrandsBoard}
               setBoardIndex={setBoardIndex}
@@ -114,7 +113,6 @@ function LandingPage() {
               setClickCounter={setClickCounter}
               spanGram={spanGram}
             />
-            {/* </div> */}
             <FoundWords
               FoundWords={foundWords}
               spanGram={spanGram}

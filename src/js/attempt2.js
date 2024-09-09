@@ -15,6 +15,16 @@ const usedLetters = new Set();
 const foundWords = []
 
 // Function to explore and build words
+/**
+ * Explores the grid to find words starting from a given cell.
+ *
+ * @param {number} row - The row index of the starting cell.
+ * @param {number} col - The column index of the starting cell.
+ * @param {string} currentWord - The current word being formed.
+ * @param {number} [minLength=4] - The minimum length of words to be considered valid.
+ *
+ * @returns {void}
+ */
 function exploreWords(row, col, currentWord, minLength = 4) {
 
   if (row < 0 || row >= grid.length || col < 0 || col >= grid[row].length) {

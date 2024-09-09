@@ -1,4 +1,4 @@
-import dictionary from '../data/words_dictionary.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary.json';
 
 // Example usage
 const board = [
@@ -25,6 +25,23 @@ function removeShortWords(dictionary) {
 
 // Usage
 const updatedDictionary = removeShortWords(dictionary);
+
+/**
+ * Performs a depth-first search (DFS) to find words in a board of letters.
+ * Depth-First Search (DFS) algorithm to find words in a board.
+ *
+ * @param {number} row - The current row index.
+ * @param {number} col - The current column index.
+ * @param {string} currentWord - The current word being formed.
+ * @param {Set<string>} visited - A set of visited coordinates.
+ * @param {Array<Array<string>>} board - The board of letters.
+ * @param {Object} dictionary - The dictionary of valid words.
+ * @param {number} rows - The total number of rows in the board.
+ * @param {number} cols - The total number of columns in the board.
+ * @param {Array<string>} [currentSolution=[]] - The current solution path.
+ * @param {Set<string>} [usedCoords=new Set()] - The set of used coordinates in the current solution.
+ * @returns {Array<string>} - An array of found words.
+ */
 
 function dfs(row, col, currentWord, visited, board, dictionary, rows, cols, currentSolution = [], usedCoords = new Set()) {
   const foundWords = [];

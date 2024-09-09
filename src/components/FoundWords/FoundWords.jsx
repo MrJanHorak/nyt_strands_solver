@@ -25,7 +25,6 @@ function FoundWords({
       <h4>Found Words {FoundWords.length}</h4>
       <div className='found-word-list'>
         {FoundWords.map((word, index) => {
-          // if (!spanGram.includes(word.word)) {
           return (
             <div
               className='found-word'
@@ -35,27 +34,8 @@ function FoundWords({
               {word.word}
             </div>
           );
-          // }
         })}
       </div>
-      {/* {spanGram.length > 0 && (
-        <div className='span-gram'>
-          <h4>Span Gram</h4>
-          <div className='span-gram-list'>
-            {spanGram.map((word, index) => {
-              return (
-                <div
-                  className='spangram-word'
-                  onClick={() => handleOnClick(word)}
-                  key={index}
-                >
-                  {word}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

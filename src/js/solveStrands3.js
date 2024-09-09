@@ -1,4 +1,4 @@
-import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary_300000_words.json';
 import Trie from './trieDictionary.js';
 import CoordinateTrie from './trieCoordinates.js';
 // Example usage
@@ -41,6 +41,20 @@ for (let word of Object.keys(updatedDictionary)) {
 console.log('# words in trie: ');
 trie.logWordCount();
 
+/**
+ * Recursively finds all valid words on a board using a trie for prefix checking.
+ *
+ * @param {number} row - The current row index.
+ * @param {number} col - The current column index.
+ * @param {string} currentWord - The word formed so far.
+ * @param {Set<string>} visited - A set of visited cells in the format "row,col".
+ * @param {Array<Array<string>>} board - The 2D board of characters.
+ * @param {Object} trie - The trie data structure for prefix and word validation.
+ * @param {number} rows - The total number of rows in the board.
+ * @param {number} cols - The total number of columns in the board.
+ * @param {Map<string, Array<Array<number>>>} [foundWords=new Map()] - A map to store found words and their coordinates.
+ * @returns {Array<{word: string, coordinates: Array<Array<number>>}>} An array of objects containing found words and their coordinates.
+ */
 function findAllWords(
   row,
   col,
