@@ -9,9 +9,9 @@
 html {
   background-color: var(--background-color);
   color: var(--font-color);
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
-[data-theme="dark"] {
+[data-theme='dark'] {
   --font-color: rgb(255, 255, 255);
   --background-color: #020202;
   --slider-color: rgb(199, 199, 199);
@@ -25,7 +25,7 @@ html {
   --shadow: rgba(253, 253, 253, 0.2);
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --font-color: rgb(0, 0, 0);
   --background-color: #ffffff;
   --slider-color: rgb(199, 199, 199);
@@ -83,7 +83,7 @@ html {
 .slider:before {
   background-color: var(--slider-color);
   bottom: 0px;
-  content: "";
+  content: '';
   height: 15px;
   width: 15px;
   left: 0px;
@@ -234,7 +234,6 @@ a {
   border-radius: 12px;
   box-shadow: 1.5px 1.5px 3px;
   transition: width 150ms;
-
 }
 
 .menuNav.showMenu {

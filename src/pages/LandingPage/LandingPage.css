@@ -16,3 +16,15 @@
   width: 100%;
   margin-top: 20px;
 }
+
+.header-container{
+  display:flex;
+  flex-direction: row;
+}
+
+.header-container h2 {
+
+  margin-top: 30px;
+  padding: 0;
+  color: var(--font-color);
+}

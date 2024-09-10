@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 //Components
 import Header from '../../components/Header/Header';
 import TodaysTheme from '../../components/TodaysTheme/TodaysTheme';
@@ -6,6 +7,7 @@ import CurrentStrandsBoard from '../../components/CurrentStrandsBoard/CurrentStr
 import PossibleWords from '../../components/PossibleWords/PossibleWords';
 import FoundWords from '../../components/FoundWords/FoundWords';
 import InstructionsModal from '../../components/InstructionsModal/InstructionsModal';
+
 
 //styles
 import './LandingPage.css';
@@ -16,10 +18,7 @@ import getStrandsBoardAndClue from '../../services/getCurrentStrandsBoard';
 //helper functions
 import { findWordsInBoard } from '../../js/allWords';
 
-//Context
-
 function LandingPage() {
-
   const [currentStrandsBoard, setCurrentStrandsBoard] = useState([]);
   const [clue, setClue] = useState('');
   const [possibleWords, setPossibleWords] = useState([]);
@@ -61,7 +60,7 @@ function LandingPage() {
         const possibleWords = await findWordsInBoard(
           currentStrandsBoard,
           themeWords,
-          spanGramWords,
+          spanGramWords
         );
         setPossibleWords(possibleWords);
         setWordsLoading(false);
@@ -93,51 +92,48 @@ function LandingPage() {
   };
 
   return (
-
-      <div className='solver-container'>
-      <button onClick={openModal}>How to Use</button>
+    <div className='solver-container'>
       <InstructionsModal isOpen={isModalOpen} onClose={closeModal} />
-        <Header />
-        {loading && <div className='loading-container'>Loading...</div>}
-        {!loading && (
-          <>
-            <TodaysTheme clue={clue} />
-            <CurrentStrandsBoard
-              currentStrands={currentStrandsBoard}
-              setBoardIndex={setBoardIndex}
-              currentWord={currentWord}
+        <Header openModal={openModal} />
+      {loading && <div className='loading-container'>Loading...</div>}
+      {!loading && (
+        <>
+          <TodaysTheme clue={clue} />
+          <CurrentStrandsBoard
+            currentStrands={currentStrandsBoard}
+            setBoardIndex={setBoardIndex}
+            currentWord={currentWord}
+            setCurrentWord={setCurrentWord}
+            setSelectedLetter={setSelectedLetter}
+            foundWords={foundWords}
+            setClickCounter={setClickCounter}
+            spanGram={spanGram}
+          />
+          <FoundWords
+            FoundWords={foundWords}
+            spanGram={spanGram}
+            handleAddtoSpanGram={handleAddtoSpanGram}
+            handleRemoveFromSpanGram={handleRemoveFromSpanGram}
+          />
+          {wordsLoading ? (
+            <div className='loading-container'>Finding possible words!</div>
+          ) : (
+            <PossibleWords
+              possibleWords={possibleWords}
               setCurrentWord={setCurrentWord}
-              setSelectedLetter={setSelectedLetter}
+              boardIndex={boardIndex}
+              currentWord={currentWord}
+              selectedLetter={selectedLetter}
+              foundAWord={foundAWord}
               foundWords={foundWords}
+              clickCounter={clickCounter}
               setClickCounter={setClickCounter}
               spanGram={spanGram}
             />
-            <FoundWords
-              FoundWords={foundWords}
-              spanGram={spanGram}
-              handleAddtoSpanGram={handleAddtoSpanGram}
-              handleRemoveFromSpanGram={handleRemoveFromSpanGram}
-            />
-            {wordsLoading ? (
-              <div className='loading-container'>Finding possible words!</div>
-            ) : (
-              <PossibleWords
-                possibleWords={possibleWords}
-                setCurrentWord={setCurrentWord}
-                boardIndex={boardIndex}
-                currentWord={currentWord}
-                selectedLetter={selectedLetter}
-                foundAWord={foundAWord}
-                foundWords={foundWords}
-                clickCounter={clickCounter}
-                setClickCounter={setClickCounter}
-                spanGram={spanGram}
-              />
-            )}
-          </>
-        )}
-      </div>
-
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
