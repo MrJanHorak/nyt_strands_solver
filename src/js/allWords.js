@@ -1,15 +1,25 @@
-import dictionary from '../data/words_dictionary_300000_words.json' ;
+// import dictionary from '../data/words_dictionary_300000_words.json' ;
 import Trie from './trieDictionary.js';
+let dictionary = {}
 let updatedDictionary = {}
 
+async function loadDictionary() {
+  if (Object.keys(dictionary).length === 0) {
+    const response = await fetch('/words_dictionary_300000_words.json');
+    dictionary = await response.json();
+  }
+  return dictionary;
+}
+
 async function removeShortWords(dictionary) {
-  for (const word in dictionary) {
+  const dict = await loadDictionary();
+  for (const word in dict) {
     if (word.length <= 3) {
       delete dictionary[word];
     }
   }
 
-  return dictionary;
+  return dict;
 }
 
 updatedDictionary = removeShortWords(dictionary)
