@@ -2,9 +2,9 @@ import './Header.css';
 
 function Header() {
   return (
-    <di className="header">
+    <div className="header">
       <h3>Strands Helper</h3>
-    </di>
+    </div>
   );
 }
 

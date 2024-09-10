@@ -1,4 +1,4 @@
-// import dictionary from '../data/words_dictionary_300000_words.json' assert { type: 'json' };
+import dictionary from '../data/words_dictionary_300000_words.json' ;
 import Trie from './trieDictionary.js';
 let updatedDictionary = {}
 
@@ -12,7 +12,7 @@ async function removeShortWords(dictionary) {
   return dictionary;
 }
 
-
+updatedDictionary = await removeShortWords(dictionary)
 
 function addWordsToUpdatedDictionary(words, spangram) {
   return new Promise((resolve, reject) => {
@@ -133,7 +133,7 @@ function findAllWords(
   }));
 }
 
-export async function findWordsInBoard(board, themeWords, spanGram, dictionary) {
+export async function findWordsInBoard(board, themeWords, spanGram) {
   const rows = board.length;
   const cols = board[0].length;
   const foundWords = new Map();

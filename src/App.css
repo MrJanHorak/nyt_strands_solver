@@ -22,6 +22,7 @@ html {
   --currentWord: #5985a6;
   --scrollbar: rgb(79, 79, 79);
   --blue: #86c3d6;
+  --shadow: rgba(253, 253, 253, 0.2);
 }
 
 [data-theme="light"] {
@@ -35,10 +36,10 @@ html {
   --currentWord: #5985a6;
   --scrollbar: rgb(233, 233, 233);
   --blue: #aedfee;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
 /*toggle element*/
-
 .toggle-theme-wrapper {
   display: flex;
   flex-direction: row;

@@ -1,16 +1,11 @@
-import { useState, useEffect, lazy, Suspense, useContext } from 'react';
+import { useState, useEffect } from 'react';
 //Components
-const Header = lazy(() => import('../../components/Header/Header'));
-const TodaysTheme = lazy(() =>
-  import('../../components/TodaysTheme/TodaysTheme')
-);
-const CurrentStrandsBoard = lazy(() =>
-  import('../../components/CurrentStrandsBoard/CurrentStrandsBoard')
-);
-const PossibleWords = lazy(() =>
-  import('../../components/PossibleWords/PossibleWords')
-);
-const FoundWords = lazy(() => import('../../components/FoundWords/FoundWords'));
+import Header from '../../components/Header/Header';
+import TodaysTheme from '../../components/TodaysTheme/TodaysTheme';
+import CurrentStrandsBoard from '../../components/CurrentStrandsBoard/CurrentStrandsBoard';
+import PossibleWords from '../../components/PossibleWords/PossibleWords';
+import FoundWords from '../../components/FoundWords/FoundWords';
+import InstructionsModal from '../../components/InstructionsModal/InstructionsModal';
 
 //styles
 import './LandingPage.css';
@@ -22,10 +17,9 @@ import getStrandsBoardAndClue from '../../services/getCurrentStrandsBoard';
 import { findWordsInBoard } from '../../js/allWords';
 
 //Context
-import { DictionaryContext } from '../../context/dictionaryContext';
 
 function LandingPage() {
-  const { dictionary, dictLoading } = useContext(DictionaryContext);
+
   const [currentStrandsBoard, setCurrentStrandsBoard] = useState([]);
   const [clue, setClue] = useState('');
   const [possibleWords, setPossibleWords] = useState([]);
@@ -39,6 +33,10 @@ function LandingPage() {
   const [themeWords, setThemeWords] = useState([]);
   const [spanGramWords, setSpanGramWords] = useState([]);
   const [wordsLoading, setWordsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +62,6 @@ function LandingPage() {
           currentStrandsBoard,
           themeWords,
           spanGramWords,
-          dictionary
         );
         setPossibleWords(possibleWords);
         setWordsLoading(false);
@@ -72,7 +69,7 @@ function LandingPage() {
     };
 
     fetchPossibleWords();
-  }, [currentStrandsBoard, themeWords, spanGramWords, dictionary]);
+  }, [currentStrandsBoard, themeWords, spanGramWords]);
 
   const handleAddtoSpanGram = (word) => {
     setSpanGram([word]);
@@ -96,8 +93,10 @@ function LandingPage() {
   };
 
   return (
-    <div className='solver-container'>
-      <Suspense fallback={<div>Loading...</div>}>
+
+      <div className='solver-container'>
+      <button onClick={openModal}>How to Use</button>
+      <InstructionsModal isOpen={isModalOpen} onClose={closeModal} />
         <Header />
         {loading && <div className='loading-container'>Loading...</div>}
         {!loading && (
@@ -119,7 +118,7 @@ function LandingPage() {
               handleAddtoSpanGram={handleAddtoSpanGram}
               handleRemoveFromSpanGram={handleRemoveFromSpanGram}
             />
-            {dictLoading || wordsLoading ? (
+            {wordsLoading ? (
               <div className='loading-container'>Finding possible words!</div>
             ) : (
               <PossibleWords
@@ -137,8 +136,8 @@ function LandingPage() {
             )}
           </>
         )}
-      </Suspense>
-    </div>
+      </div>
+
   );
 }
 
