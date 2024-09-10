@@ -12,7 +12,7 @@ async function removeShortWords(dictionary) {
   return dictionary;
 }
 
-updatedDictionary = await removeShortWords(dictionary)
+updatedDictionary = removeShortWords(dictionary)
 
 function addWordsToUpdatedDictionary(words, spangram) {
   return new Promise((resolve, reject) => {
