@@ -8,7 +8,6 @@ import PossibleWords from '../../components/PossibleWords/PossibleWords';
 import FoundWords from '../../components/FoundWords/FoundWords';
 import InstructionsModal from '../../components/InstructionsModal/InstructionsModal';
 
-
 //styles
 import './LandingPage.css';
 
@@ -94,7 +93,7 @@ function LandingPage() {
   return (
     <div className='solver-container'>
       <InstructionsModal isOpen={isModalOpen} onClose={closeModal} />
-        <Header openModal={openModal} />
+      <Header openModal={openModal} />
       {loading && <div className='loading-container'>Loading...</div>}
       {!loading && (
         <>

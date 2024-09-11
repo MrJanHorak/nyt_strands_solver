@@ -7,7 +7,7 @@ function InstructionModal({ isOpen, onClose }) {
   return (
     <div className='modal-overlay' onClick={onClose}>
       <div className='modal-content'>
-      <IoIosCloseCircleOutline />
+        <IoIosCloseCircleOutline />
         <h2>How to Use the Strands Helper</h2>
         <ol>
           <li>
@@ -25,7 +25,7 @@ function InstructionModal({ isOpen, onClose }) {
           </li>
           <li>
             If the word you found is the spangram, select it on the found words
-            list to high light it yellow.
+            list to highlight it yellow.
           </li>
         </ol>
       </div>

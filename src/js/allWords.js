@@ -1,7 +1,7 @@
 // import dictionary from '../data/words_dictionary_300000_words.json' ;
 import Trie from './trieDictionary.js';
-let dictionary = {}
-let updatedDictionary = {}
+let dictionary = {};
+let updatedDictionary = {};
 
 async function loadDictionary() {
   if (Object.keys(dictionary).length === 0) {
@@ -22,7 +22,7 @@ async function removeShortWords(dictionary) {
   return dict;
 }
 
-updatedDictionary = removeShortWords(dictionary)
+updatedDictionary = removeShortWords(dictionary);
 
 function addWordsToUpdatedDictionary(words, spangram) {
   return new Promise((resolve, reject) => {
@@ -148,7 +148,7 @@ export async function findWordsInBoard(board, themeWords, spanGram) {
   const cols = board[0].length;
   const foundWords = new Map();
 
-  updatedDictionary = await removeShortWords(dictionary)
+  updatedDictionary = await removeShortWords(dictionary);
 
   try {
     await addWordsToUpdatedDictionary(themeWords, spanGram);

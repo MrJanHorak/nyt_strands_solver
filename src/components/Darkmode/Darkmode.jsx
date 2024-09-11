@@ -1,23 +1,23 @@
-import { FaGithub } from "react-icons/fa";
+import { FaGithub } from 'react-icons/fa';
 
 const setDark = () => {
-  localStorage.setItem("theme", "dark");
-  document.documentElement.setAttribute("data-theme", "dark");
+  localStorage.setItem('theme', 'dark');
+  document.documentElement.setAttribute('data-theme', 'dark');
 };
 
 const setLight = () => {
-  localStorage.setItem("theme", "light");
-  document.documentElement.setAttribute("data-theme", "light");
+  localStorage.setItem('theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
 };
 
-const storedTheme = localStorage.getItem("theme");
+const storedTheme = localStorage.getItem('theme');
 
 const prefersDark =
   window.matchMedia &&
-  window.matchMedia("(prefers-color-scheme: dark)").matches;
+  window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const defaultDark =
-  storedTheme === "dark" || (storedTheme === null && prefersDark);
+  storedTheme === 'dark' || (storedTheme === null && prefersDark);
 
 if (defaultDark) {
   setDark();
@@ -33,26 +33,26 @@ const toggleTheme = (e) => {
 
 const DarkMode = () => {
   return (
-    <div className="toggle-theme-wrapper">
-      <span role="img" aria-label="light theme">
+    <div className='toggle-theme-wrapper'>
+      <span role='img' aria-label='light theme'>
         ⚪
       </span>
-      <label className="toggle-theme" htmlFor="checkbox">
+      <label className='toggle-theme' htmlFor='checkbox'>
         <input
-          type="checkbox"
-          id="checkbox"
+          type='checkbox'
+          id='checkbox'
           onChange={toggleTheme}
           defaultChecked={defaultDark}
         />
-        <div className="slider round"></div>
+        <div className='slider round'></div>
       </label>
-      <span role="img" aria-label="dark theme">
+      <span role='img' aria-label='dark theme'>
         ⚫
       </span>
-      <div className="footer-info">
+      <div className='footer-info'>
         <p>
           ©2024 Jan Horak
-          <a href="https://github.com/MrJanHorak/nyt_strands_solver">
+          <a href='https://github.com/MrJanHorak/nyt_strands_solver'>
             <FaGithub />
           </a>
         </p>
